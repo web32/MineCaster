@@ -4,7 +4,7 @@
 
   <groupId>org.fifthDimensionGames</groupId>
   <artifactId>MineCaster</artifactId>
-  <version>0.1-#${buildNumber}</version>
+  <version>0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>MineCaster</name>
@@ -20,6 +20,23 @@
         <url>http://repo.bukkit.org/content/groups/public/</url>
      </repository>
   </repositories>
+  
+  <build>
+    <resources>
+       <resource>
+            <directory>src/main/java/</directory>
+            <includes>
+                <include>plugin.yml</include>
+            </includes>
+       </resource>
+    <resource>
+        <directory>src/main/java/</directory>
+        <includes>
+            <include>config.yml</include>
+        </includes>
+        </resource>
+    </resources>
+  </build>
 
 
   <dependencies>

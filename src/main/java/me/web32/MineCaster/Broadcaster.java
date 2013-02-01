@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 public class Broadcaster {
     public static void broadcast(String message) {
         Player[] players = Bukkit.getOnlinePlayers();
-        for(int i = 0; players[i] != null; i++) {
+        for(int i = 0; players.length < i; i++) {
             players[i].chat(message);
         }
     }
