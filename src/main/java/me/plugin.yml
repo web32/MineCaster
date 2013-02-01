@@ -1,0 +1,13 @@
+name: MineCaster
+author: web32
+version: DEV
+main: me.web32.MineCaster.Main
+
+prefix: [MineCaster]
+
+
+commands:
+  minecaster:
+    aliases: mc
+    
+  
