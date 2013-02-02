@@ -12,11 +12,16 @@ import org.bukkit.entity.Player;
  * @author maximiliansollner
  */
 public class Broadcaster {
-    public static void broadcast(String message) {
-        Player[] players = Bukkit.getOnlinePlayers();
-        for(int i = 0; players.length < i; i++) {
-            players[i].chat(message);
+    public static void broadcast(String prefix, String[] words) {
+        String message = prefix;
+        for(int i = 1; i < words.length; i++) {
+            message = message + " " + words[i];
         }
+        Bukkit.getServer().broadcastMessage(message);
+    }
+    
+    public static void broadcast(String prefix, String message) {
+        Bukkit.getServer().broadcastMessage(prefix + " " + message);
     }
     
 }

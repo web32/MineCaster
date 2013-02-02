@@ -4,7 +4,7 @@
 
   <groupId>org.fifthDimensionGames</groupId>
   <artifactId>MineCaster</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1-DEV-Build</version>
   <packaging>jar</packaging>
 
   <name>MineCaster</name>

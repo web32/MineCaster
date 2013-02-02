@@ -9,5 +9,6 @@ prefix: [MineCaster]
 commands:
   minecaster:
     aliases: mc
+    usage: For help type /mc help
     
   
