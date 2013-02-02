@@ -4,7 +4,7 @@
 
   <groupId>org.fifthDimensionGames</groupId>
   <artifactId>MineCaster</artifactId>
-  <version>0.1-DEV-Build</version>
+  <version>0.1-Dev-Build</version>
   <packaging>jar</packaging>
 
   <name>MineCaster</name>
@@ -26,6 +26,7 @@
   </repositories>
   
   <build>
+    <finalName>MineCaster-0.1-#${BUILD_NUMBER}</finalName>
     <resources>
        <resource>
             <directory>src/main/java/</directory>
@@ -75,4 +76,5 @@
         <scope>compile</scope>
     </dependency>
   </dependencies>
+  
 </project>
