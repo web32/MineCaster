@@ -20,16 +20,13 @@ import sun.security.timestamp.TSRequest;
 public class Main extends JavaPlugin{
     public int interval;
     public String AnnouncerPrefix;
-    public Object[] messages;
+    public Message[] messages = new Message[100];
     public int messagePointer = 0;
     
     private BukkitTask task;
     
     @Override
     public void onEnable() {
-        //TEST
-        Message test = new Message("&1Test &2 Test &3 Test");
-        System.out.println(test.getMessage());
         
         //Check for the default configuration
         this.saveDefaultConfig();
@@ -97,7 +94,11 @@ public class Main extends JavaPlugin{
     public void loadConfig() {
         interval = getConfig().getInt("interval");
         AnnouncerPrefix = getConfig().getString("prefix");
-        messages = getConfig().getStringList("messages").toArray();
+        Object[] announcements = getConfig().getStringList("messages").toArray();
+        for (int i = 0; i < announcements.length; i++) {
+            messages[i] = new Message(announcements[i].toString());
+            
+        }
     }
     
     public void scheduleTimer() {
@@ -107,12 +108,12 @@ public class Main extends JavaPlugin{
                 public void run() {
                     if(getConfig().getBoolean("random")) {
                         int random = (int) ((Math.random() * messages.length) - 1);
-                        Broadcaster.broadcast(AnnouncerPrefix, messages[random].toString());
+                        Broadcaster.broadcast(AnnouncerPrefix, messages[random].getMessage());
                     } else {
                         if(messagePointer == messages.length) {
                             messagePointer = 0;
                         }
-                        Broadcaster.broadcast(AnnouncerPrefix, messages[messagePointer].toString());
+                        Broadcaster.broadcast(AnnouncerPrefix, messages[messagePointer].getMessage());
                         messagePointer++;
                         
                     }

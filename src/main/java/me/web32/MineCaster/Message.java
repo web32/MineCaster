@@ -4,9 +4,6 @@
  */
 package me.web32.MineCaster;
 
-import java.util.Arrays;
-import java.util.List;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 /**
@@ -15,17 +12,15 @@ import org.bukkit.ChatColor;
  */
 public class Message {
     private String text;
-    private List<String> words;
+    private String[] words;
     
     public int length;
     public boolean colored;
     public boolean variables;
     
     public Message(String message) {
-        //To List
-        String[] wordsArray = message.split(" ");
-        words.addAll(Arrays.asList(wordsArray));
-        
+        //To Array
+        words = message.split(" ");
         //To String
         text = message;
     }
@@ -33,13 +28,13 @@ public class Message {
     public String getMessage() {
         String message = " ";
         
-        for (int i = 0; i < words.size(); i++) {
-            if(words.get(i).startsWith("&")) {
-                String CC = words.get(i).substring(1,2);
+        for (int i = 0; i < words.length; i++) {
+            if(words[i].startsWith("&")) {
+                String CC = words[i].substring(1, 2);
                 message = message + ChatColor.getByChar(CC);
-                message = message + words.get(i).substring(2);
+                message = message + words[i].substring(2);
             } else {
-               message = message + words.get(i);
+               message = message + " " + words[i];
             }
         }
         return message;
