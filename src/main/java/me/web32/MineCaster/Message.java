@@ -32,7 +32,7 @@ public class Message {
             if(words[i].startsWith("&")) {
                 String CC = words[i].substring(1, 2);
                 message = message + ChatColor.getByChar(CC);
-                message = message + words[i].substring(2);
+                message = message + " " + words[i].substring(2);
             } else {
                message = message + " " + words[i];
             }

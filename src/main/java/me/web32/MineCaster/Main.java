@@ -20,7 +20,7 @@ import sun.security.timestamp.TSRequest;
 public class Main extends JavaPlugin{
     public int interval;
     public String AnnouncerPrefix;
-    public Message[] messages = new Message[100];
+    public Message[] messages;
     public int messagePointer = 0;
     
     private BukkitTask task;
@@ -95,9 +95,9 @@ public class Main extends JavaPlugin{
         interval = getConfig().getInt("interval");
         AnnouncerPrefix = getConfig().getString("prefix");
         Object[] announcements = getConfig().getStringList("messages").toArray();
+        messages = new Message[announcements.length];
         for (int i = 0; i < announcements.length; i++) {
             messages[i] = new Message(announcements[i].toString());
-            
         }
     }
     
@@ -110,12 +110,11 @@ public class Main extends JavaPlugin{
                         int random = (int) ((Math.random() * messages.length) - 1);
                         Broadcaster.broadcast(AnnouncerPrefix, messages[random].getMessage());
                     } else {
-                        if(messagePointer == messages.length) {
+                        if(messagePointer > messages.length) {
                             messagePointer = 0;
                         }
                         Broadcaster.broadcast(AnnouncerPrefix, messages[messagePointer].getMessage());
                         messagePointer++;
-                        
                     }
                }
             }, 120L, repeatingInterval);
