@@ -15,7 +15,7 @@ import sun.security.timestamp.TSRequest;
 
 /**
  *
- * @author maximiliansollner
+ * @author web32
  */
 public class Main extends JavaPlugin{
     public int interval;
@@ -27,6 +27,9 @@ public class Main extends JavaPlugin{
     
     @Override
     public void onEnable() {
+        //TEST
+        Message test = new Message("&1Test &2 Test &3 Test");
+        System.out.println(test.getMessage());
         
         //Check for the default configuration
         this.saveDefaultConfig();

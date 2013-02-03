@@ -5,11 +5,10 @@
 package me.web32.MineCaster;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 /**
  *
- * @author maximiliansollner
+ * @author web32
  */
 public class Broadcaster {
     public static void broadcast(String prefix, String[] words) {

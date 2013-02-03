@@ -7,60 +7,43 @@ package me.web32.MineCaster;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 /**
  *
- * @author maximiliansollner
+ * @author web32
  */
 public class Message {
-    private List<String> Words;
+    private String text;
+    private List<String> words;
+    
+    public int length;
+    public boolean colored;
+    public boolean variables;
     
     public Message(String message) {
-        setMessage(message);
-    }
-    
-    
-    
-    public void setMessage(String message) {
-        String[] wordString;
-        wordString = message.split(" ");
+        //To List
+        String[] wordsArray = message.split(" ");
+        words.addAll(Arrays.asList(wordsArray));
         
-        for (int i = 0; i < wordString.length; i++) {
-            Words.add(wordString[i]);
-            
-        }
-      
-        
-        
-      /*  if(message.contains("$")) {
-            for (int i = 0; i < wordString.length; i++) {
-                if(wordString[i].startsWith("$")) {
-                    if(wordString[i].contains("MOTD")) {
-                        Words.add(Bukkit.getServer().getMotd().toString());
-                    } else {
-                        Words.add(wordString[i]);
-                    }
-                } else{
-                    Words.add(wordString[i]);
-                }
-            }
-        } else {
-            for (int i = 0; i < wordString.length; i++) {
-                Words.add(wordString[i].toString());
-            }
-        } */
+        //To String
+        text = message;
     }
     
     public String getMessage() {
-        String message = null;
-        for(int i = 0; i < Words.size(); i++) {
-            if(message.isEmpty()) {
-                message = Words.get(i);               
+        String message = " ";
+        
+        for (int i = 0; i < words.size(); i++) {
+            if(words.get(i).startsWith("&")) {
+                String CC = words.get(i).substring(1,2);
+                message = message + ChatColor.getByChar(CC);
+                message = message + words.get(i).substring(2);
             } else {
-                message = message + " " + Words.get(i);
+               message = message + words.get(i);
             }
         }
         return message;
     }
+    
     
 }
