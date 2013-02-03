@@ -19,6 +19,6 @@ random: true
 #Messages for broadcasting
 messages:
   - 'This is the first default message! You can add as much messages as you want.'
-  - 'This is the secon default message! You can even broadcast every message you want by typing /mc announce <message>'
+  - 'This is the second default message! You can even broadcast every message you want by typing /mc announce <message>'
 
   
