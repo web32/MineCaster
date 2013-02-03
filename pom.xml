@@ -4,7 +4,7 @@
 
   <groupId>org.fifthDimensionGames</groupId>
   <artifactId>MineCaster</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>MineCaster-Release-0.1</version>
   <packaging>jar</packaging>
 
   <name>MineCaster</name>
@@ -67,12 +67,6 @@
        <artifactId>bukkit</artifactId>
        <version>1.4.7-R1.1-SNAPSHOT</version>
       <type>jar</type>
-    </dependency>
-    <dependency>
-        <groupId>org.mcstats.bukkit</groupId>
-        <artifactId>metrics</artifactId>
-        <version>R6</version>
-        <scope>compile</scope>
     </dependency>
   </dependencies>
 </project>

@@ -4,6 +4,7 @@
  */
 package me.web32.MineCaster;
 
+import com.sun.corba.se.impl.logging.OMGSystemException;
 import java.io.IOException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,6 +27,7 @@ public class Main extends JavaPlugin{
     
     @Override
     public void onEnable() {
+        
         //Check for the default configuration
         this.saveDefaultConfig();
         
@@ -63,7 +65,8 @@ public class Main extends JavaPlugin{
             //In-Game Setting-Commands
             //Interval
             if(args.length == 2 && args[0].equalsIgnoreCase("interval")) {
-                getConfig().set("interval", args[1]);
+                int newInterval = new Integer(args[1]);
+                getConfig().set("interval", newInterval);
                 this.saveConfig();
                 task.cancel();
                 scheduleTimer();

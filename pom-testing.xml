@@ -26,7 +26,7 @@
   </repositories>
   
   <build>
-    <finalName>MineCaster-0.1-#${BUILD_NUMBER}</finalName>
+    <finalName>MineCaster-DEV-#${BUILD_NUMBER}</finalName>
     <resources>
        <resource>
             <directory>src/main/java/</directory>
@@ -73,7 +73,7 @@
         <groupId>org.mcstats.bukkit</groupId>
         <artifactId>metrics</artifactId>
         <version>R6</version>
-        <scope>compile</scope>
+        <scope>runtime</scope>
     </dependency>
   </dependencies>
   
