@@ -5,8 +5,8 @@
 
 #Should the plugin be loaded at server-start?
 enabled: true
-#Prefix in front of every MineCast broadcast. Color Codes aren't supported yet.
-prefix: '[Server]'
+#Prefix in front of every MineCast broadcast. Color Codes are supported.
+prefix: '&1[&4Server&1]&f'
 
 
 #Schedule the broadcasting messages.
@@ -16,9 +16,10 @@ interval: 120
 #Random broadcasting-order.
 random: true
 
-#Messages for broadcasting
+#Messages for broadcasting. Color Codes are supported.
 messages:
   - 'This is the first default message! You can add as much messages as you want.'
   - 'This is the second default message! You can even broadcast every message you want by typing /mc announce <message>'
+  - This is the third default message! &1You &2can &3use &4color &5codes &6!
 
   

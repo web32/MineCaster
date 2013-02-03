@@ -19,7 +19,7 @@ import sun.security.timestamp.TSRequest;
  */
 public class Main extends JavaPlugin{
     public int interval;
-    public String AnnouncerPrefix;
+    public Message AnnouncerPrefix;
     public Message[] messages;
     public int messagePointer = 0;
     
@@ -83,7 +83,7 @@ public class Main extends JavaPlugin{
   
             //Manual announce Command
             if(args.length > 1 && args[0].equalsIgnoreCase("announce")) {
-                Broadcaster.broadcast(AnnouncerPrefix, args);
+                Broadcaster.broadcast(AnnouncerPrefix.getMessage(), args);
                 return true;
             }
         }
@@ -93,7 +93,7 @@ public class Main extends JavaPlugin{
     
     public void loadConfig() {
         interval = getConfig().getInt("interval");
-        AnnouncerPrefix = getConfig().getString("prefix");
+        AnnouncerPrefix = new Message(getConfig().getString("prefix"));
         Object[] announcements = getConfig().getStringList("messages").toArray();
         messages = new Message[announcements.length];
         for (int i = 0; i < announcements.length; i++) {
@@ -108,12 +108,12 @@ public class Main extends JavaPlugin{
                 public void run() {
                     if(getConfig().getBoolean("random")) {
                         int random = (int) ((Math.random() * messages.length) - 1);
-                        Broadcaster.broadcast(AnnouncerPrefix, messages[random].getMessage());
+                        Broadcaster.broadcast(AnnouncerPrefix.getMessage(), messages[random].getMessage());
                     } else {
                         if(messagePointer > messages.length) {
                             messagePointer = 0;
                         }
-                        Broadcaster.broadcast(AnnouncerPrefix, messages[messagePointer].getMessage());
+                        Broadcaster.broadcast(AnnouncerPrefix.getMessage(), messages[messagePointer].getMessage());
                         messagePointer++;
                     }
                }
