@@ -103,14 +103,15 @@ public class Main extends JavaPlugin{
                 @Override  
                 public void run() {
                     if(getConfig().getBoolean("random")) {
-                        int random = (int) Math.random() * messages.length;
+                        int random = (int) ((Math.random() * messages.length) - 1);
                         Broadcaster.broadcast(AnnouncerPrefix, messages[random].toString());
                     } else {
-                        Broadcaster.broadcast(AnnouncerPrefix, messages[messagePointer].toString());
-                        messagePointer++;
-                        if(messagePointer > messages.length) {
+                        if(messagePointer == messages.length) {
                             messagePointer = 0;
                         }
+                        Broadcaster.broadcast(AnnouncerPrefix, messages[messagePointer].toString());
+                        messagePointer++;
+                        
                     }
                }
             }, 120L, repeatingInterval);
