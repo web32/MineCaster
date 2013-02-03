@@ -25,7 +25,7 @@ public class Message {
         text = message;
     }
     
-    public String getMessage() {
+   public String getMessage() {
         String message = " ";
         
         for (int i = 0; i < words.length; i++) {
@@ -39,6 +39,23 @@ public class Message {
         }
         return message;
     }
+    
+   /* public String getMessage() {
+        String message = " ";
+        for (int i = 0; i < words.length; i++) {
+            if(words[i].contains("&")) {
+                String[] strings = words[i].split("&");
+                for (int j = 0; j < strings.length; j++) {
+                    String CC = strings[j].substring(0,1);
+                    String newWord = ChatColor.getByChar(CC) + words[i].substring(1);
+                    message = message + " " + newWord;
+                }
+            } else {
+               message = message + " " + words[i];
+            }
+        }
+        return message;
+    } */
     
     
 }

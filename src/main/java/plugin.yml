@@ -1,9 +1,9 @@
 name: MineCaster
 author: web32
-version: 0.2.1
+version: 0.2.2
 main: me.web32.MineCaster.Main
 
-prefix: [MineCaster]
+prefix: MineCaster
 
 commands:
   minecaster:

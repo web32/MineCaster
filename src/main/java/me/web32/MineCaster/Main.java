@@ -27,7 +27,6 @@ public class Main extends JavaPlugin{
     
     @Override
     public void onEnable() {
-        
         //Check for the default configuration
         this.saveDefaultConfig();
         
@@ -57,14 +56,14 @@ public class Main extends JavaPlugin{
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(cmd.getName().equalsIgnoreCase("minecaster") || cmd.getName().equalsIgnoreCase("mc")) {
             //Configuration Reloading
-            if(args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+            if(args.length == 1 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("minecaster.manage.reload")) {
                 this.loadConfig();
                 sender.sendMessage("The configuration file was reloaded!");
                 return true;
             }
             //In-Game Setting-Commands
             //Interval
-            if(args.length == 2 && args[0].equalsIgnoreCase("interval")) {
+            if(args.length == 2 && args[0].equalsIgnoreCase("interval") && sender.hasPermission("minecaster.manage.interval")) {
                 int newInterval = new Integer(args[1]);
                 getConfig().set("interval", newInterval);
                 this.saveConfig();
@@ -74,7 +73,7 @@ public class Main extends JavaPlugin{
                 return true;
             }
             //Prefix
-            if(args.length == 2 && args[0].equalsIgnoreCase("prefix")) {
+            if(args.length == 2 && args[0].equalsIgnoreCase("prefix") && sender.hasPermission("minecaster.manage.prefix")) {
                 getConfig().set("prefix", args[1]);
                 this.saveConfig();
                 sender.sendMessage("The broadcasting prefix was set " + getConfig().getString("prefix") + ".");
@@ -82,7 +81,7 @@ public class Main extends JavaPlugin{
             }
   
             //Manual announce Command
-            if(args.length > 1 && args[0].equalsIgnoreCase("announce")) {
+            if(args.length > 1 && args[0].equalsIgnoreCase("announce") && sender.hasPermission("minecaster.announce")) {
                 Broadcaster.broadcast(AnnouncerPrefix.getMessage(), args);
                 return true;
             }
