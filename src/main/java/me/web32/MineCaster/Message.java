@@ -4,6 +4,10 @@
  */
 package me.web32.MineCaster;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import org.bukkit.ChatColor;
 
 /**
@@ -25,7 +29,8 @@ public class Message {
         text = message;
     }
     
-   public String getMessage() {
+   @Deprecated
+   public String getMessageText() {
         String message = " ";
         
         for (int i = 0; i < words.length; i++) {
@@ -40,22 +45,26 @@ public class Message {
         return message;
     }
     
-   /* public String getMessage() {
-        String message = " ";
-        for (int i = 0; i < words.length; i++) {
-            if(words[i].contains("&")) {
-                String[] strings = words[i].split("&");
-                for (int j = 0; j < strings.length; j++) {
-                    String CC = strings[j].substring(0,1);
-                    String newWord = ChatColor.getByChar(CC) + words[i].substring(1);
-                    message = message + " " + newWord;
+    public String getMessage() {
+        String message = "";
+        System.out.println(text);
+        char[] chars = text.toCharArray();
+        System.out.append("chars:" + chars.length);
+        String[] s = new String[chars.length];
+        System.out.append("s:" + s.length);
+        
+        for (int i = 0; i < chars.length; i++) {
+            s[i] = String.valueOf(chars[i]);  
+        }    
+        for (int j = 0; j < s.length; j++) {
+                System.out.print(j + ":" + s[j]);
+                if(s[j].equalsIgnoreCase("&")) {
+                    message = message + ChatColor.getByChar(s[j+1]);
+                    j++;
+                } else {
+                    message = message + s[j];
                 }
-            } else {
-               message = message + " " + words[i];
             }
-        }
         return message;
-    } */
-    
-    
+    }
 }
