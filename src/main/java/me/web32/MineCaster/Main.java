@@ -104,10 +104,10 @@ public class Main extends JavaPlugin{
                 @Override  
                 public void run() {
                     if(getConfig().getBoolean("random")) {
-                        int random = (int) ((Math.random() * messages.length) - 1);
+                        int random = (int) Math.random() * messages.length;
                         Broadcaster.broadcast(AnnouncerPrefix.getMessage(), messages[random].getMessage());
                     } else {
-                        if(messagePointer > messages.length) {
+                        if(messagePointer == messages.length) {
                             messagePointer = 0;
                         }
                         Broadcaster.broadcast(AnnouncerPrefix.getMessage(), messages[messagePointer].getMessage());
