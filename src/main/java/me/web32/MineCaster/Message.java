@@ -47,17 +47,13 @@ public class Message {
     
     public String getMessage() {
         String message = "";
-        System.out.println(text);
         char[] chars = text.toCharArray();
-        System.out.append("chars:" + chars.length);
         String[] s = new String[chars.length];
-        System.out.append("s:" + s.length);
         
         for (int i = 0; i < chars.length; i++) {
             s[i] = String.valueOf(chars[i]);  
         }    
         for (int j = 0; j < s.length; j++) {
-                System.out.print(j + ":" + s[j]);
                 if(s[j].equalsIgnoreCase("&")) {
                     message = message + ChatColor.getByChar(s[j+1]);
                     j++;
