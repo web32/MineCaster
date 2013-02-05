@@ -25,7 +25,7 @@
   </repositories>
   
   <build>
-    <finalName>MineCaster-0.3</finalName>
+    <finalName>MineCaster-0.3-${BUILD_NUMBER}</finalName>
     <resources>
        <resource>
             <directory>src/main/java/</directory>

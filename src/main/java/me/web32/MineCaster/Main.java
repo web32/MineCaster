@@ -23,6 +23,7 @@ public class Main extends JavaPlugin{
     
     private BukkitTask task;
     
+    
     @Override
     public void onEnable() {
         //Check for the default configuration
