@@ -45,6 +45,10 @@ public class Message {
     }
     
     public String getMessage() {
+        if(text.equals("<PlayerCount>")) {
+            Main.playerGraph.drawGraph();
+            return "----------------------------";
+        }
         String message = "";
         char[] chars = text.toCharArray();
         String[] s = new String[chars.length];
@@ -65,10 +69,12 @@ public class Message {
                         variable = variable + s[i+j];
                     }
                     message = message + replaceVariable(variable);
-                    j = j + variable.length();
+                    j = j + variable.length();               
                 } else {
                     message = message + s[j];
                 }
+                
+                
             }
         return message;
     }
@@ -87,6 +93,5 @@ public class Message {
         } else {
             return "{NOT DEFINED}";
         }
-        
     }
 }

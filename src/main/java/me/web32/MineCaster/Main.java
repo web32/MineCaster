@@ -5,6 +5,7 @@
 package me.web32.MineCaster;
 
 import java.io.IOException;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,11 +17,12 @@ import org.mcstats.Metrics;
  * @author web32
  */
 public class Main extends JavaPlugin{
+    public static Graph playerGraph;
     public static int interval;
-    public Message AnnouncerPrefix;
+    public static Message AnnouncerPrefix;
     public Message[] messages;
     public int messagePointer = 0;
-    public static String PluginVersion = "0.3.1";
+    public static String PluginVersion = "0.4pre";
     public static boolean Random;
     public static String prefix;
     public static boolean enabled;
@@ -30,6 +32,10 @@ public class Main extends JavaPlugin{
     
     @Override
     public void onEnable() {
+        //Initilize Graphs
+        playerGraph = new Graph("PlayerCount");
+        schedulePlayerGraphEngine();
+        
         //Check for the default configuration
         this.saveDefaultConfig();
         
@@ -121,5 +127,14 @@ public class Main extends JavaPlugin{
                     }
                }
             }, 120L, repeatingInterval);
+    }
+    
+    public void schedulePlayerGraphEngine() {
+                BukkitTask graphTask = this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+                @Override  
+                public void run() {
+                    playerGraph.addData(Bukkit.getOnlinePlayers().length);
+               }
+            }, 120L, 20 * 60 * 60);
     }
 }
