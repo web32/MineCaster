@@ -16,10 +16,14 @@ import org.mcstats.Metrics;
  * @author web32
  */
 public class Main extends JavaPlugin{
-    public int interval;
+    public static int interval;
     public Message AnnouncerPrefix;
     public Message[] messages;
     public int messagePointer = 0;
+    public static String PluginVersion = "0.3.1";
+    public static boolean Random;
+    public static String prefix;
+    public static boolean enabled;
     
     private BukkitTask task;
     
@@ -104,6 +108,7 @@ public class Main extends JavaPlugin{
             task = this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
                 @Override  
                 public void run() {
+                    Random = getConfig().getBoolean("random");
                     if(getConfig().getBoolean("random")) {
                         int random = (int) Math.random() * messages.length;
                         Broadcaster.broadcast(AnnouncerPrefix.getMessage(), messages[random].getMessage());

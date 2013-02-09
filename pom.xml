@@ -4,7 +4,7 @@
 
   <groupId>org.fifthDimensionGames</groupId>
   <artifactId>MineCaster</artifactId>
-  <version>MineCaster-Release-0.3</version>
+  <version>MineCaster-Release-0.4-pre</version>
   <packaging>jar</packaging>
 
   <name>MineCaster</name>
@@ -25,7 +25,7 @@
   </repositories>
   
   <build>
-    <finalName>MineCaster-0.3-#${BUILD_NUMBER}</finalName>
+    <finalName>MineCaster-0.4pre-#${BUILD_NUMBER}</finalName>
     <resources>
        <resource>
             <directory>src/main/java/</directory>

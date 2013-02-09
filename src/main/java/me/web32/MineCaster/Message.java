@@ -4,10 +4,6 @@
  */
 package me.web32.MineCaster;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -22,6 +18,8 @@ public class Message {
     public int length;
     public boolean colored;
     public boolean variables;
+    
+    public static boolean usingVariables;
     
     public Message(String message) {
         //To Array
@@ -62,6 +60,7 @@ public class Message {
                 //Check if Variable
                 } else if(s[j].equalsIgnoreCase("$")) {
                     String variable = "";
+                    usingVariables = true;
                     for (int i = 1; (i+j) < s.length && !s[i+j].equalsIgnoreCase(" "); i++) {
                         variable = variable + s[i+j];
                     }
