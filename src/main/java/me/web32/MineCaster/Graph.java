@@ -21,31 +21,45 @@ public class Graph {
     
     public void addData(int value) {
         values.add(value);
-        for (int i = 0; i < values.size(); i++) {
+        int i;
+        if(values.size() > 24) {
+        i = values.size() - 24;
+    } else {
+        i = 0;
+    }
+        while (i < values.size()) {
             if(values.get(i) > highestValue) {
                 highestValue = value;
-            }   
+            }
+            i++;
         }
     }
     
     private String getLine(int line) {
     String output = "";
-        for (int i = 0; i < values.size(); i++) {
+    int i;
+    if(values.size() > 24) {
+        i = values.size() - 24;
+    } else {
+        i = 0;
+    }
+    while(i < values.size()) {
             if(values.get(i) > (highestValue / 4) * (line - 1)) {
                 output = output + "O";
             } else {
-                output = output + " ";
-            }      
-        }
+                output = output + "-";
+            }     
+        i++;
+    }
     return output;
     }
     
     public void drawGraph() {
         Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),header);
-        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),getLine(4));
-        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),getLine(3));
-        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),getLine(2));
-        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),getLine(1));
+        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),highestValue + "|" + getLine(4));
+        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),highestValue/4*3 + "|" + getLine(3));
+        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),highestValue/2 + "|" + getLine(2));
+        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),highestValue/4*1 + "|" + getLine(1));
     }
     
     

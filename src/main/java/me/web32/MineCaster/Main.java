@@ -6,6 +6,7 @@ package me.web32.MineCaster;
 
 import java.io.IOException;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,7 +34,7 @@ public class Main extends JavaPlugin{
     @Override
     public void onEnable() {
         //Initilize Graphs
-        playerGraph = new Graph("PlayerCount");
+        playerGraph = new Graph("Number of " + ChatColor.DARK_RED + "players " + ChatColor.WHITE + "in the last " + ChatColor.GOLD + "24h");
         schedulePlayerGraphEngine();
         
         //Check for the default configuration
