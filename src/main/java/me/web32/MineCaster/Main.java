@@ -95,6 +95,15 @@ public class Main extends JavaPlugin{
                 Broadcaster.broadcast(AnnouncerPrefix.getMessage(), args);
                 return true;
             }
+            //Help Command
+            if(args.length == 1 && args[0].equalsIgnoreCase("help")) {
+                sender.sendMessage(ChatColor.AQUA + "MineCaster Help:");
+                sender.sendMessage("/mc announce <message>");
+                sender.sendMessage("/mc interval <interval>");
+                sender.sendMessage("/mc prefix <prefix>");
+                sender.sendMessage("/mc reload");
+                return true;
+            }
         }
        return false;
     }
