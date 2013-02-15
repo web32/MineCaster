@@ -4,6 +4,7 @@
  */
 package me.web32.MineCaster;
 
+import com.sun.org.apache.bcel.internal.generic.ATHROW;
 import java.io.IOException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,6 +28,7 @@ public class Main extends JavaPlugin{
     public static boolean Random;
     public static String prefix;
     public static boolean enabled;
+    public static GUI gui = new GUI();
     
     private BukkitTask task;
     
@@ -55,12 +57,6 @@ public class Main extends JavaPlugin{
             metrics.start();
         } catch (IOException e) {
         }
-        //Open GUI
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUI().setVisible(true);
-            }
-        });
     }
     
     @Override
@@ -109,6 +105,15 @@ public class Main extends JavaPlugin{
                 sender.sendMessage("/mc prefix <prefix>");
                 sender.sendMessage("/mc reload");
                 return true;
+            }
+            //GUI COMMANDS
+            //gui open Command
+            if(args.length == 1 && args[0].equalsIgnoreCase("gui")) {
+                if(!gui.isVisible()) {
+                    gui.setVisible(true);
+                    return true;
+                }
+                return false;   
             }
         }
        return false;

@@ -60,7 +60,7 @@ public class GUI extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 839, Short.MAX_VALUE)
+            .add(0, 756, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -71,10 +71,7 @@ public class GUI extends javax.swing.JFrame {
 
         messageTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Text", "Message-Type"
@@ -121,7 +118,7 @@ public class GUI extends javax.swing.JFrame {
                     .add(addMessageButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(addGraphButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 611, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -173,9 +170,10 @@ public class GUI extends javax.swing.JFrame {
 
     private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
         if(tabbedPane.getSelectedIndex() == 1) {
-            DefaultTableModel model = new DefaultTableModel(new String[]{"MessageText"}, Main.messages.length);
+            DefaultTableModel model = new DefaultTableModel(new String[]{"MessageText"}, 0);
             for (int i = 0; i < Main.messages.length; i++) {
-                model.addRow(new Object[] {Main.messages[i]});
+                model.addRow(new Object[]{Main.messages[i].text});
+                System.out.println(i);
             }
             messageTable.setModel(model);
         }

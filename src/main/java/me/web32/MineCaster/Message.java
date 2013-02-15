@@ -12,7 +12,7 @@ import org.bukkit.ChatColor;
  * @author web32
  */
 public class Message {
-    private String text;
+    public String text;
     private String[] words;
     
     public int length;
