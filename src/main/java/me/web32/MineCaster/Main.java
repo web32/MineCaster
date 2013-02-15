@@ -21,7 +21,7 @@ public class Main extends JavaPlugin{
     public static Graph playerGraph;
     public static int interval;
     public static Message AnnouncerPrefix;
-    public Message[] messages;
+    public static Message[] messages = new Message[50];
     public int messagePointer = 0;
     public static String PluginVersion = "0.4pre";
     public static boolean Random;
@@ -55,6 +55,12 @@ public class Main extends JavaPlugin{
             metrics.start();
         } catch (IOException e) {
         }
+        //Open GUI
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new GUI().setVisible(true);
+            }
+        });
     }
     
     @Override
