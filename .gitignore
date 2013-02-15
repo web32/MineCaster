@@ -6,3 +6,5 @@
 *.ear
 /target/
 .DS_Store
+
+*.png
