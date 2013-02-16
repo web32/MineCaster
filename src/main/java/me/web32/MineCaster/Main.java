@@ -4,8 +4,8 @@
  */
 package me.web32.MineCaster;
 
-import com.sun.org.apache.bcel.internal.generic.ATHROW;
 import java.io.IOException;
+import javax.swing.SwingUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -20,18 +20,19 @@ import org.mcstats.Metrics;
  */
 public class Main extends JavaPlugin{
     public static Graph playerGraph;
-    public static int interval;
     public static Message AnnouncerPrefix;
     public static Message[] messages = new Message[50];
     public int messagePointer = 0;
     public static String PluginVersion = "0.4pre";
-    public static boolean Random;
-    public static String prefix;
-    public static boolean enabled;
-    public static GUI gui = new GUI();
+    public static GUI gui;
     
     private BukkitTask task;
     
+    //Settings
+    public static boolean enabled;
+    public static boolean Random;
+    public static int interval;
+    public static String prefix;   
     
     @Override
     public void onEnable() {
@@ -39,13 +40,13 @@ public class Main extends JavaPlugin{
         playerGraph = new Graph("Number of " + ChatColor.DARK_RED + "players " + ChatColor.WHITE + "in the last " + ChatColor.GOLD + "24h");
         schedulePlayerGraphEngine();
         
-        //Check for the default configuration
+        //Save the default configuration file
         this.saveDefaultConfig();
         
         if(!getConfig().getBoolean("enabled")) {
             this.getPluginLoader().disablePlugin(this);
         }
-        loadConfig();
+        loadConfiguration();
         
         if(getConfig().getBoolean("automated")) {
             scheduleTimer();
@@ -69,7 +70,7 @@ public class Main extends JavaPlugin{
         if(cmd.getName().equalsIgnoreCase("minecaster") || cmd.getName().equalsIgnoreCase("mc")) {
             //Configuration Reloading
             if(args.length == 1 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("minecaster.manage.reload")) {
-                this.loadConfig();
+                this.loadConfiguration();
                 sender.sendMessage("The configuration file was reloaded!");
                 return true;
             }
@@ -106,28 +107,44 @@ public class Main extends JavaPlugin{
                 sender.sendMessage("/mc reload");
                 return true;
             }
+            if(args.length == 1 && args[0].equalsIgnoreCase("save")) {
+                saveConfiguration();
+                reloadConfig();
+            }
             //GUI COMMANDS
             //gui open Command
             if(args.length == 1 && args[0].equalsIgnoreCase("gui")) {
-                if(!gui.isVisible()) {
+                SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    gui = new GUI();
                     gui.setVisible(true);
-                    return true;
                 }
-                return false;   
+            });
+            return true;   
             }
         }
        return false;
     }
         
     
-    public void loadConfig() {
+    public void loadConfiguration() {
         interval = getConfig().getInt("interval");
         AnnouncerPrefix = new Message(getConfig().getString("prefix"));
+        Random = getConfig().getBoolean("random");
+        enabled = getConfig().getBoolean("enabled");
         Object[] announcements = getConfig().getStringList("messages").toArray();
         messages = new Message[announcements.length];
         for (int i = 0; i < announcements.length; i++) {
             messages[i] = new Message(announcements[i].toString());
         }
+    }
+    
+    public void saveConfiguration() {
+        getConfig().set("automated", enabled);
+        getConfig().set("random", Random);
+        getConfig().set("interval", interval);
+        getConfig().set("prefix", AnnouncerPrefix.text);
+        saveConfig();
     }
     
     public void scheduleTimer() {

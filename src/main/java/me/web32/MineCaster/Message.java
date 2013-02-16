@@ -4,8 +4,11 @@
  */
 package me.web32.MineCaster;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import sun.util.calendar.JulianCalendar;
 
 /**
  *
@@ -14,6 +17,7 @@ import org.bukkit.ChatColor;
 public class Message {
     public String text;
     private String[] words;
+
     
     public int length;
     public boolean colored;
@@ -23,7 +27,6 @@ public class Message {
         //To Array
         words = message.split(" ");
         //To String
-        text = message;
     }
     
    @Deprecated
