@@ -4,8 +4,15 @@
 
 package me.web32.MineCaster;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
+import javax.xml.stream.XMLStreamException;
+import me.web32.MineCaster.utility.xmlConfigurationManager;
+import me.web32.MineCaster.utility.ymlConfigurationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -20,8 +27,8 @@ import org.mcstats.Metrics;
  */
 public class Main extends JavaPlugin{
     //Configuration Variables
-    public static boolean enabled;
-    public static boolean random;
+    public static boolean enabled = false;
+    public static boolean random = false;
     public static int interval;
     
     public static Message prefix;
@@ -34,6 +41,19 @@ public class Main extends JavaPlugin{
     
     @Override
     public void onEnable() {
+        //TEST DO NOT DISTRIBUTE
+        xmlConfigurationManager xml = new xmlConfigurationManager();
+        try {
+            xml.loadConfiguration("plugins/MineCaster/config.xml");
+        } catch (XMLStreamException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    
+    
+        
         /*
          * Initialize Graphs
          */
@@ -42,11 +62,11 @@ public class Main extends JavaPlugin{
         playerCountGraph.getPlayerCountDataCollector();
         
         //Activate MC-Metrics
-        try {
-            Metrics metrics = new Metrics(this);
-            metrics.start();
-        } catch (IOException e) {
-        }
+//        try {
+//            Metrics metrics = new Metrics(this);
+//            metrics.start();
+//        } catch (IOException e) {
+//        }
         
     }
 
@@ -54,8 +74,7 @@ public class Main extends JavaPlugin{
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(cmd.getName().equalsIgnoreCase("minecaster") || cmd.getName().equalsIgnoreCase("mc")) {
             //Configuration Reloading
-            if(args.length == 1 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("minecaster.manage.reload")) {
-                this.loadConfiguration();
+            if(args.length == 1 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("minecaster.manage.reload")) {               
                 sender.sendMessage("The configuration file was reloaded!");
                 return true;
             }
@@ -65,7 +84,6 @@ public class Main extends JavaPlugin{
                 int newInterval = new Integer(args[1]);
                 getConfig().set("interval", newInterval);
                 this.saveConfig();
-                task.cancel();
                 scheduleMessageTimer();
                 sender.sendMessage("The broadcasting interval is now " + getConfig().getString("interval") + " seconds.");
                 return true;
@@ -93,7 +111,6 @@ public class Main extends JavaPlugin{
                 return true;
             }
             if(args.length == 1 && args[0].equalsIgnoreCase("save")) {
-                saveConfiguration();
                 reloadConfig();
             }
             //GUI COMMANDS
