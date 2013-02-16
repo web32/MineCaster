@@ -5,6 +5,8 @@
 package me.web32.MineCaster;
 
 import java.util.ArrayList;
+import org.bukkit.Bukkit;
+import sun.util.BuddhistCalendar;
 
 /**
  *
@@ -55,11 +57,23 @@ public class Graph {
     }
     
     public void drawGraph() {
-        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),header);
-        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),highestValue + "|" + getLine(4));
-        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),highestValue/4*3 + "|" + getLine(3));
-        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),highestValue/2 + "|" + getLine(2));
-        Broadcaster.broadcast(Main.AnnouncerPrefix.getMessage(),highestValue/4*1 + "|" + getLine(1));
+        Broadcaster.broadcast(Main.prefix.getMessage(),header);
+        Broadcaster.broadcast(Main.prefix.getMessage(),highestValue + "|" + getLine(4));
+        Broadcaster.broadcast(Main.prefix.getMessage(),highestValue/4*3 + "|" + getLine(3));
+        Broadcaster.broadcast(Main.prefix.getMessage(),highestValue/2 + "|" + getLine(2));
+        Broadcaster.broadcast(Main.prefix.getMessage(),highestValue/4*1 + "|" + getLine(1));
+    }
+    
+    /*
+     * DataCollectors
+     */
+    //PlayerCount data collector
+    public void getPlayerCountDataCollector() {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Bukkit.getPluginManager().getPlugin("MineCaster"), new Runnable() {
+            public void run() {
+                addData(Bukkit.getOnlinePlayers().length);
+            }
+        }, 120L, 60 * 60 * 20L);
     }
     
     

@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/* The file Main.java was created.
+* Copyright (c) 2013 Maximilian Söllner alias web32. All rights reserved.
+*/
+
 package me.web32.MineCaster;
 
 import java.io.IOException;
@@ -19,38 +19,27 @@ import org.mcstats.Metrics;
  * @author web32
  */
 public class Main extends JavaPlugin{
-    public static Graph playerGraph;
-    public static Message AnnouncerPrefix;
-    public static Message[] messages = new Message[50];
-    public int messagePointer = 0;
-    public static String PluginVersion = "0.4pre";
-    public static GUI gui;
-    
-    private BukkitTask task;
-    
-    //Settings
+    //Configuration Variables
     public static boolean enabled;
-    public static boolean Random;
+    public static boolean random;
     public static int interval;
-    public static String prefix;   
+    
+    public static Message prefix;
+    public static Message[] messages;
+    private static int messagePointer = 0;
+    public static Message[] realTimeMessages;
+    public static Graph playerCountGraph;
+    
+    public static GUI gui;
     
     @Override
     public void onEnable() {
-        //Initilize Graphs
-        playerGraph = new Graph("Number of " + ChatColor.DARK_RED + "players " + ChatColor.WHITE + "in the last " + ChatColor.GOLD + "24h");
-        schedulePlayerGraphEngine();
-        
-        //Save the default configuration file
-        this.saveDefaultConfig();
-        
-        if(!getConfig().getBoolean("enabled")) {
-            this.getPluginLoader().disablePlugin(this);
-        }
-        loadConfiguration();
-        
-        if(getConfig().getBoolean("automated")) {
-            scheduleTimer();
-        }
+        /*
+         * Initialize Graphs
+         */
+        //PlayerCount Graph
+        playerCountGraph = new Graph("Number of " + ChatColor.DARK_RED + "players " + ChatColor.WHITE + "in the last " + ChatColor.GOLD + "24h");
+        playerCountGraph.getPlayerCountDataCollector();
         
         //Activate MC-Metrics
         try {
@@ -58,13 +47,9 @@ public class Main extends JavaPlugin{
             metrics.start();
         } catch (IOException e) {
         }
+        
     }
-    
-    @Override
-    public void onDisable() {
-        task.cancel();
-    }
-    
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(cmd.getName().equalsIgnoreCase("minecaster") || cmd.getName().equalsIgnoreCase("mc")) {
@@ -81,7 +66,7 @@ public class Main extends JavaPlugin{
                 getConfig().set("interval", newInterval);
                 this.saveConfig();
                 task.cancel();
-                scheduleTimer();
+                scheduleMessageTimer();
                 sender.sendMessage("The broadcasting interval is now " + getConfig().getString("interval") + " seconds.");
                 return true;
             }
@@ -95,7 +80,7 @@ public class Main extends JavaPlugin{
   
             //Manual announce Command
             if(args.length > 1 && args[0].equalsIgnoreCase("announce") && sender.hasPermission("minecaster.announce")) {
-                Broadcaster.broadcast(AnnouncerPrefix.getMessage(), args);
+                Broadcaster.broadcast(prefix.getMessage(), args);
                 return true;
             }
             //Help Command
@@ -125,54 +110,24 @@ public class Main extends JavaPlugin{
         }
        return false;
     }
-        
     
-    public void loadConfiguration() {
-        interval = getConfig().getInt("interval");
-        AnnouncerPrefix = new Message(getConfig().getString("prefix"));
-        Random = getConfig().getBoolean("random");
-        enabled = getConfig().getBoolean("enabled");
-        Object[] announcements = getConfig().getStringList("messages").toArray();
-        messages = new Message[announcements.length];
-        for (int i = 0; i < announcements.length; i++) {
-            messages[i] = new Message(announcements[i].toString());
-        }
-    }
-    
-    public void saveConfiguration() {
-        getConfig().set("automated", enabled);
-        getConfig().set("random", Random);
-        getConfig().set("interval", interval);
-        getConfig().set("prefix", AnnouncerPrefix.text);
-        saveConfig();
-    }
-    
-    public void scheduleTimer() {
+    public void scheduleMessageTimer() {
             int repeatingInterval = interval*20;
-            task = this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+            this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
                 @Override  
                 public void run() {
-                    Random = getConfig().getBoolean("random");
+                    random = getConfig().getBoolean("random");
                     if(getConfig().getBoolean("random")) {
                         int random = (int) Math.random() * messages.length;
-                        Broadcaster.broadcast(AnnouncerPrefix.getMessage(), messages[random].getMessage());
+                        Broadcaster.broadcast(prefix.getMessage(), messages[random].getMessage());
                     } else {
                         if(messagePointer == messages.length) {
                             messagePointer = 0;
                         }
-                        Broadcaster.broadcast(AnnouncerPrefix.getMessage(), messages[messagePointer].getMessage());
+                        Broadcaster.broadcast(prefix.getMessage(), messages[messagePointer].getMessage());
                         messagePointer++;
                     }
                }
             }, 120L, repeatingInterval);
-    }
-    
-    public void schedulePlayerGraphEngine() {
-                BukkitTask graphTask = this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
-                @Override  
-                public void run() {
-                    playerGraph.addData(Bukkit.getOnlinePlayers().length);
-               }
-            }, 120L, 20 * 60 * 60);
     }
 }

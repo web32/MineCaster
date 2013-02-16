@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <enabled>true</enabled>
+    <random>true</random>
+    <prefix>Server</prefix>
+    <interval>120</interval>
+</config>
+
+<messages>
+    <message>
+        <text>Hello World!</text>
+        <realTime>12:00</realTime>
+        <realTime>13:00</realTime>
+    </message>
+    <message>
+        <text>Hello World!</text>
+    </message>    
+</messages>

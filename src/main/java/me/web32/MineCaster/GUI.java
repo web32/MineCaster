@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/* The file GUI.java was created.
+* Copyright (c) 2013 Maximilian Söllner alias web32. All rights reserved.
+*/
+
 package me.web32.MineCaster;
 
 import javax.swing.JOptionPane;
