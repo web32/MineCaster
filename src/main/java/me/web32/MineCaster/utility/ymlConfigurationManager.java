@@ -25,13 +25,7 @@ public class ymlConfigurationManager {
         Main.enabled = plugin.getConfig().getBoolean("enabled");
         Main.random = plugin.getConfig().getBoolean("random");
         
-        Main.interval = plugin.getConfig().getInt("interval");
-        
-        List<String> messages = plugin.getConfig().getStringList("rules");
-        for (String s : messages) {
-            System.out.println("Message: " + s);
-        }
-        
+        Main.interval = plugin.getConfig().getInt("interval");   
     }
 
 }

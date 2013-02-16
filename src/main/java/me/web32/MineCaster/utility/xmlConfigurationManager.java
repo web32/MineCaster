@@ -5,21 +5,14 @@
 package me.web32.MineCaster.utility;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Dictionary;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
 import me.web32.MineCaster.Main;
 import me.web32.MineCaster.Message;
 import org.w3c.dom.Document;
@@ -60,15 +53,25 @@ public class xmlConfigurationManager {
                 Node messageNode = doc.getElementsByTagName("message").item(i);
                 if(messageNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element e = (Element) messageNode;
-                    String text = e.getElementsByTagName("text").item(0).getTextContent();
+                    
+                    //Define message-text
+                    String text = "";
+                    text = e.getElementsByTagName("text").item(0).getTextContent();
+                    
+                    //Define realTime-array
                     String[] realTime = new String[e.getElementsByTagName("realTime").getLength()];
                     for (int j = 0; j < e.getElementsByTagName("realTime").getLength(); j++) {
                         realTime[j] = e.getElementsByTagName("realTime").item(j).getTextContent();   
                     }
-                    System.out.println("Message:");
+                    
                     System.out.println(text);
-                    for (int j = 0; j < realTime.length; j++) {
-                        System.out.println(realTime[j]);                  
+                    //Output Message
+                    if(realTime.length > 0) {
+                        Message output = new Message(text, realTime);
+                        Main.realTimeMessages.add(output);
+                    } else {
+                        Message output = new Message(text);
+                        Main.messages.add(output);
                     }
                 }
                 

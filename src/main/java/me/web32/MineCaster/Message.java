@@ -4,11 +4,14 @@
 
 package me.web32.MineCaster;
 
+import com.sun.media.sound.RealTimeSequencerProvider;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.plaf.basic.BasicScrollPaneUI;
 import org.bukkit.*;
 
 /**
@@ -60,19 +63,25 @@ public class Message {
         
         //Schedule Annoucement
         for (int i = 0; i < realTime.length; i++) {
-            DateFormat time = new SimpleDateFormat();
-            try {
-                time.parse(realTime[i]);
-            } catch (ParseException ex) {
-                Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
+            String[] time = realTime[i].split(":");
+            int hours = Integer.valueOf(time[0]);
+            int minutes = Integer.valueOf(time[1]);
+            
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.HOUR_OF_DAY, hours);
+            c.set(Calendar.MINUTE, minutes);
+            if(c.getTimeInMillis() < System.currentTimeMillis()) {
+                c.add(Calendar.DAY_OF_MONTH, 1);
+                System.out.println("tomorrow");
             }
-            int initialTime = (int) (time.getCalendar().getTimeInMillis() - System.currentTimeMillis());
+            System.out.println(c.getTimeInMillis() + " - " + System.currentTimeMillis());
+            int initialTime = (int) ((c.getTimeInMillis() - System.currentTimeMillis())/ 1000);
             System.out.println(initialTime);
             Bukkit.getScheduler().scheduleSyncRepeatingTask(Bukkit.getPluginManager().getPlugin("MineCaster"), new Runnable() {
                 public void run() {
-                    
+                    broadcastMessage();
                 }
-            }, initialTime * 20L, 1000 * 60 * 60 * 24 * 20L);            
+            }, initialTime * 20L, 60 * 60 * 24 * 20L);            
         }
     }
     /*
@@ -109,6 +118,7 @@ public class Message {
                     message = message + s[j];
                 }   
             }
+        Broadcaster.broadcast(Main.prefix.getMessage(), message);
    }
     
    

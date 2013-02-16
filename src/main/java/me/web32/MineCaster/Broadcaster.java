@@ -4,7 +4,7 @@
  */
 package me.web32.MineCaster;
 
-import org.bukkit.Bukkit;
+import org.bukkit.*;
 
 /**
  *

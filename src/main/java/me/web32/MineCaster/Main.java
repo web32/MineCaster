@@ -7,6 +7,8 @@ package me.web32.MineCaster;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
@@ -32,9 +34,9 @@ public class Main extends JavaPlugin{
     public static int interval;
     
     public static Message prefix;
-    public static Message[] messages;
+    public static ArrayList<Message> messages = new ArrayList<Message>();;
     private static int messagePointer = 0;
-    public static Message[] realTimeMessages;
+    public static ArrayList<Message> realTimeMessages = new ArrayList<Message>();;
     public static Graph playerCountGraph;
     
     public static GUI gui;
@@ -42,6 +44,9 @@ public class Main extends JavaPlugin{
     @Override
     public void onEnable() {
         //TEST DO NOT DISTRIBUTE
+        System.out.println("TIME: " + System.currentTimeMillis());
+        
+        //Initialize and load XMl-CONFIGURATION-HANDLER
         xmlConfigurationManager xml = new xmlConfigurationManager();
         try {
             xml.loadConfiguration("plugins/MineCaster/config.xml");
@@ -51,6 +56,8 @@ public class Main extends JavaPlugin{
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     
+        //Activate Timer
+        scheduleMessageTimer();
     
     
         
@@ -129,22 +136,23 @@ public class Main extends JavaPlugin{
     }
     
     public void scheduleMessageTimer() {
-            int repeatingInterval = interval*20;
+            int repeatingInterval = interval * 20;
             this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
                 @Override  
                 public void run() {
+                    if(messages.size() < 1) return;
                     random = getConfig().getBoolean("random");
                     if(getConfig().getBoolean("random")) {
-                        int random = (int) Math.random() * messages.length;
-                        Broadcaster.broadcast(prefix.getMessage(), messages[random].getMessage());
+                        int random = (int) Math.random() * messages.size();
+                        Broadcaster.broadcast(prefix.getMessage(), messages.get(random).getMessage());
                     } else {
-                        if(messagePointer == messages.length) {
+                        if(messagePointer == messages.size()) {
                             messagePointer = 0;
                         }
-                        Broadcaster.broadcast(prefix.getMessage(), messages[messagePointer].getMessage());
+                        Broadcaster.broadcast(prefix.getMessage(), messages.get(messagePointer).getMessage());
                         messagePointer++;
                     }
                }
-            }, 120L, repeatingInterval);
+            }, 200L, repeatingInterval);
     }
 }

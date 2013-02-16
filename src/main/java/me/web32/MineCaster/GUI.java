@@ -305,15 +305,15 @@ public class GUI extends javax.swing.JFrame {
     private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
         if(tabbedPane.getSelectedIndex() == 1) {
             model = new DefaultTableModel(new String[]{"MessageText","Scheduled"}, 0);
-            for (int i = 0; i < Main.messages.length; i++) {
-                model.addRow(new Object[]{Main.messages[i].text});
+            for (int i = 0; i < Main.messages.size(); i++) {
+                model.addRow(new Object[]{Main.messages.get(i).getMessageText()});
             }
             messageTable.setModel(model);
         } else {
             activatedCheckBox.setSelected(Main.enabled);
-            randomCheckBox.setSelected(Main.Random);
+            randomCheckBox.setSelected(Main.random);
             intervalTextField.setText(String.valueOf(Main.interval));
-            serverPrefixTextField.setText(Main.AnnouncerPrefix.text);
+            serverPrefixTextField.setText(Main.prefix.getMessageText());
         }
     }//GEN-LAST:event_tabbedPaneStateChanged
 
@@ -327,9 +327,9 @@ public class GUI extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         Main.enabled = activatedCheckBox.isSelected();
-        Main.Random = randomCheckBox.isSelected();
+        Main.random = randomCheckBox.isSelected();
         Main.interval = Integer.valueOf(intervalTextField.getText());
-        Main.AnnouncerPrefix.text = serverPrefixTextField.getText();
+//        Main.prefix.getMessageText() = serverPrefixTextField.getText();
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mc save");
     }//GEN-LAST:event_saveButtonActionPerformed
 
