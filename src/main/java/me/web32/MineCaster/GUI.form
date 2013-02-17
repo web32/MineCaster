@@ -193,39 +193,36 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSeparator2" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                              <Component id="standardSettingsLabel" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="configurationText" min="-2" max="-2" attributes="0"/>
-                                          <Component id="graphLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="addMessageButton" alignment="1" max="32767" attributes="0"/>
-                                              <Component id="removeMessageButton" alignment="1" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Component id="addGraphButton" alignment="1" min="-2" pref="127" max="-2" attributes="0"/>
-                                          <Component id="removeGraphButton" alignment="1" min="-2" pref="127" max="-2" attributes="0"/>
-                                          <Component id="graphSelection" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                  <Component id="addGraphButton" alignment="1" min="-2" pref="127" max="-2" attributes="0"/>
+                                  <Component id="removeGraphButton" alignment="1" min="-2" pref="127" max="-2" attributes="0"/>
+                                  <Component id="graphSelection" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="addMessageButton" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="removeMessageButton" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="scheduleMessageButton" alignment="1" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
+                          <Component id="jSeparator2" alignment="1" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="configurationText" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                                      <Component id="standardSettingsLabel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="graphLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="570" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -243,14 +240,16 @@
                               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                               <Component id="addMessageButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
+                              <Component id="scheduleMessageButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="removeMessageButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                               <Component id="graphLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="graphSelection" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="addGraphButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="removeGraphButton" min="-2" max="-2" attributes="0"/>
@@ -363,6 +362,14 @@
               </Events>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator2">
+            </Component>
+            <Component class="javax.swing.JButton" name="scheduleMessageButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Schedule Message"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="scheduleMessageButtonActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

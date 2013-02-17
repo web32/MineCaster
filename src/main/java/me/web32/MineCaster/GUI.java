@@ -4,9 +4,13 @@
 
 package me.web32.MineCaster;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.transform.TransformerException;
 import org.bukkit.*;
+import sun.net.www.content.audio.x_aiff;
 
 /**
  *
@@ -60,6 +64,7 @@ public class GUI extends javax.swing.JFrame {
         graphLabel = new javax.swing.JLabel();
         addGraphButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
+        scheduleMessageButton = new javax.swing.JButton();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -205,37 +210,41 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        scheduleMessageButton.setText("Schedule Message");
+        scheduleMessageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                scheduleMessageButtonActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jSeparator2)
-                    .add(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
+                    .add(jSeparator1)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .add(0, 12, Short.MAX_VALUE)
                         .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator1)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, addGraphButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 127, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, removeGraphButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 127, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, graphSelection, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                .add(org.jdesktop.layout.GroupLayout.TRAILING, addMessageButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(org.jdesktop.layout.GroupLayout.TRAILING, removeMessageButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(org.jdesktop.layout.GroupLayout.TRAILING, scheduleMessageButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator2)
+                    .add(jPanel2Layout.createSequentialGroup()
+                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(configurationText)
                             .add(jPanel2Layout.createSequentialGroup()
-                                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(jPanel2Layout.createSequentialGroup()
-                                        .add(6, 6, 6)
-                                        .add(standardSettingsLabel))
-                                    .add(configurationText)
-                                    .add(graphLabel))
-                                .add(0, 0, Short.MAX_VALUE))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .add(0, 0, Short.MAX_VALUE)
-                                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, addMessageButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, removeMessageButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .add(0, 0, Short.MAX_VALUE)
-                                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, addGraphButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 127, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, removeGraphButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 127, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, graphSelection, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))))
-                .add(18, 18, 18)
+                                .add(6, 6, 6)
+                                .add(standardSettingsLabel))
+                            .add(graphLabel))
+                        .add(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 570, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -251,14 +260,16 @@ public class GUI extends javax.swing.JFrame {
                         .add(8, 8, 8)
                         .add(addMessageButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(scheduleMessageButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(removeMessageButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(10, 10, 10)
+                        .add(1, 1, 1)
                         .add(graphLabel)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(graphSelection, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(8, 8, 8)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(addGraphButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(removeGraphButton)
@@ -295,11 +306,13 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMessageButtonActionPerformed
-        model.addRow(new Object[] { JOptionPane.showInputDialog("Please insert the message text.")});
+        model.addRow(new Object[] { JOptionPane.showInputDialog("Please insert the message text."), ""});
+        saveTable();
     }//GEN-LAST:event_addMessageButtonActionPerformed
 
     private void removeGraphButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeGraphButtonActionPerformed
-        // TODO add your handling code here:
+        saveTable();
+        
     }//GEN-LAST:event_removeGraphButtonActionPerformed
 
     private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
@@ -335,12 +348,27 @@ public class GUI extends javax.swing.JFrame {
 
     private void removeMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMessageButtonActionPerformed
         model.removeRow(messageTable.getSelectedRow());
+        saveTable();
     }//GEN-LAST:event_removeMessageButtonActionPerformed
 
     private void addGraphButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGraphButtonActionPerformed
-        // TODO add your handling code here:
+        saveTable();
     }//GEN-LAST:event_addGraphButtonActionPerformed
 
+    private void scheduleMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleMessageButtonActionPerformed
+        int selected = messageTable.getSelectedRow();
+        model.setValueAt(JOptionPane.showInputDialog("Please insert when the message should be announced (e.g. 17:25).\n The format is HH:mm and the day has 24 hours."), selected, 1);    
+        saveTable();
+    }//GEN-LAST:event_scheduleMessageButtonActionPerformed
+    
+    private void saveTable() {
+        try {
+            System.out.println("SAVE IT!");
+            Main.xml.resetMessages("plugins/MineCaster/config.xml", model);
+        } catch (TransformerException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -398,6 +426,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton removeGraphButton;
     private javax.swing.JButton removeMessageButton;
     private javax.swing.JButton saveButton;
+    private javax.swing.JButton scheduleMessageButton;
     private javax.swing.JTextField serverPrefixTextField;
     private javax.swing.JLabel standardSettingsLabel;
     private javax.swing.JTabbedPane tabbedPane;

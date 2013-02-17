@@ -4,6 +4,7 @@
 
 package me.web32.MineCaster;
 
+import java.awt.RadialGradientPaint;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -40,14 +41,12 @@ public class Main extends JavaPlugin{
     public static Graph playerCountGraph;
     
     public static GUI gui;
+    public static xmlConfigurationManager xml;
     
     @Override
     public void onEnable() {
-        //TEST DO NOT DISTRIBUTE
-        System.out.println("TIME: " + System.currentTimeMillis());
-        
         //Initialize and load XMl-CONFIGURATION-HANDLER
-        xmlConfigurationManager xml = new xmlConfigurationManager();
+        xml = new xmlConfigurationManager();
         try {
             xml.loadConfiguration("plugins/MineCaster/config.xml");
         } catch (XMLStreamException ex) {
@@ -140,11 +139,10 @@ public class Main extends JavaPlugin{
             this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
                 @Override  
                 public void run() {
-                    if(messages.size() < 1) return;
-                    random = getConfig().getBoolean("random");
-                    if(getConfig().getBoolean("random")) {
-                        int random = (int) Math.random() * messages.size();
-                        Broadcaster.broadcast(prefix.getMessage(), messages.get(random).getMessage());
+                            if(messages.size() < 1) return;
+                    if(random) {
+                        int randomInt = Math.round((float) Math.random() * messages.size());
+                        Broadcaster.broadcast(prefix.getMessage(), messages.get(randomInt).getMessage());
                     } else {
                         if(messagePointer == messages.size()) {
                             messagePointer = 0;
