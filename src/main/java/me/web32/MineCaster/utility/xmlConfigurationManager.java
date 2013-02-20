@@ -28,6 +28,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import quicktime.app.sg.SGCaptureCallback;
 
 /**
  *
@@ -75,7 +76,7 @@ public class xmlConfigurationManager {
                     
                     System.out.println(text);
                     //Output Message
-                    if(realTime.length > 0) {
+                    if(realTime.length > 0 && !"".equals(realTime[0])) {
                         Message output = new Message(text, realTime);
                         Main.realTimeMessages.add(output);
                     } else {
@@ -92,13 +93,27 @@ public class xmlConfigurationManager {
         }
     }
     
+    public void saveSettings(String pathToFile) {
+        try {
+            Document doc = dBuilder.parse(new File(pathToFile));
+            
+            doc.getElementsByTagName("random").item(0).setTextContent(String.valueOf(Main.random));
+            doc.getElementsByTagName("enabled").item(0).setTextContent(String.valueOf(Main.enabled));
+            doc.getElementsByTagName("interval").item(0).setTextContent(String.valueOf(Main.interval));
+            doc.getElementsByTagName("prefix").item(0).setTextContent(Main.prefix.getMessageText());
+        } catch (SAXException ex) {
+            Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void resetMessages(String pathToFile,TableModel model) throws TransformerException {
         try {
             System.out.println("ROWS: " + model.getRowCount());
             System.out.println("COLUMNS: " + model.getColumnCount());
             
             Document doc = dBuilder.parse(new File(pathToFile));
-            doc.getDocumentElement().normalize();
             
             Node config = doc.getElementsByTagName("config").item(0);
             
@@ -110,9 +125,10 @@ public class xmlConfigurationManager {
                 
                 config.removeChild(node);	              
             }
-            Element messagesE = doc.createElement("messages");
+            
+            Node messagesNode = config.appendChild(doc.createElement("messages"));
                 for (int j = 0; j < model.getRowCount(); j++) {
-                    Node message = messagesE.appendChild(doc.createElement("message"));
+                    Node message = messagesNode.appendChild(doc.createElement("message"));
                     System.out.println("ROW!");
                     for (int k = 0; k < model.getColumnCount(); k++) {
                         if(k==0) {
@@ -147,6 +163,13 @@ public class xmlConfigurationManager {
         } catch (SAXException ex) {
             Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            loadConfiguration("plugins/MineCaster/config.xml");
+        } catch (XMLStreamException ex) {
+            Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
             Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         

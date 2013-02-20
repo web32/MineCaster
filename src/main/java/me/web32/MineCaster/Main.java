@@ -4,25 +4,27 @@
 
 package me.web32.MineCaster;
 
-import java.awt.RadialGradientPaint;
+import com.google.common.io.Files;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.xml.stream.XMLStreamException;
 import me.web32.MineCaster.utility.xmlConfigurationManager;
-import me.web32.MineCaster.utility.ymlConfigurationManager;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
-import org.mcstats.Metrics;
 
 /**
  *
@@ -45,6 +47,36 @@ public class Main extends JavaPlugin{
     
     @Override
     public void onEnable() {
+
+        //Save default configuration files
+       File config = new File("plugins/MineCaster/config.xml");
+        if(!config.exists()) {
+            InputStream is = getResource("config.xml");
+            try {
+                OutputStream os = new FileOutputStream(config);
+
+                int read = 0;
+                byte[] bytes = new byte[1024];
+                try {
+                    while ((read = is.read(bytes)) != -1) {
+                        try {
+                            os.write(bytes, 0, read);
+                        } catch (IOException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }  
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        
+        
+        
+        
         //Initialize and load XMl-CONFIGURATION-HANDLER
         xml = new xmlConfigurationManager();
         try {
@@ -116,9 +148,6 @@ public class Main extends JavaPlugin{
                 sender.sendMessage("/mc reload");
                 return true;
             }
-            if(args.length == 1 && args[0].equalsIgnoreCase("save")) {
-                reloadConfig();
-            }
             //GUI COMMANDS
             //gui open Command
             if(args.length == 1 && args[0].equalsIgnoreCase("gui")) {
@@ -139,9 +168,9 @@ public class Main extends JavaPlugin{
             this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
                 @Override  
                 public void run() {
-                            if(messages.size() < 1) return;
+                    if(messages.size() < 1) return;
                     if(random) {
-                        int randomInt = Math.round((float) Math.random() * messages.size());
+                        int randomInt = Math.round((float) Math.random() * (messages.size()-1));
                         Broadcaster.broadcast(prefix.getMessage(), messages.get(randomInt).getMessage());
                     } else {
                         if(messagePointer == messages.size()) {
@@ -152,5 +181,13 @@ public class Main extends JavaPlugin{
                     }
                }
             }, 200L, repeatingInterval);
+    }
+    
+    public static void removeMessage(String message) {
+        for (int i = 0; i < messages.size(); i++) {
+            if(message.equalsIgnoreCase(messages.get(i).getMessageText())) {
+                messages.remove(i);
+            }           
+        }       
     }
 }

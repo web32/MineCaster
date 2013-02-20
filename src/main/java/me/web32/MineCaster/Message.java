@@ -172,6 +172,18 @@ public class Message {
             }
         return message;
     }
+   
+    public void resetMessageText(String text) {
+        //Save plaintext
+        this.text = text;
+        
+        //Save WordArray
+        this.words = text.split(" ");
+        
+        //Set booleans
+        if(this.text.contains("&")) usingColor = true;
+        if(this.text.contains("$")) usingVariable = true;
+    }
     
     private String replaceVariable(String variable) {
         if(variable.equalsIgnoreCase("Port")) {

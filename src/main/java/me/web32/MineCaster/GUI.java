@@ -10,13 +10,13 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.transform.TransformerException;
 import org.bukkit.*;
-import sun.net.www.content.audio.x_aiff;
 
 /**
  *
  * @author web32
  */
 public class GUI extends javax.swing.JFrame {
+    private static final long serialVersionUID = 1L;
     DefaultTableModel model;
 
     static void main() {
@@ -311,8 +311,9 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_addMessageButtonActionPerformed
 
     private void removeGraphButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeGraphButtonActionPerformed
-        saveTable();
-        
+        model.removeRow(messageTable.getSelectedRow());
+        Main.removeMessage(String.valueOf(messageTable.getValueAt(messageTable.getSelectedRow(), 0)));
+        saveTable();       
     }//GEN-LAST:event_removeGraphButtonActionPerformed
 
     private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
@@ -342,16 +343,19 @@ public class GUI extends javax.swing.JFrame {
         Main.enabled = activatedCheckBox.isSelected();
         Main.random = randomCheckBox.isSelected();
         Main.interval = Integer.valueOf(intervalTextField.getText());
-//        Main.prefix.getMessageText() = serverPrefixTextField.getText();
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mc save");
+        Main.prefix.resetMessageText(serverPrefixTextField.getText());
+        
+        Main.xml.saveSettings("plugins/MineCaster/config.xml");
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void removeMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMessageButtonActionPerformed
         model.removeRow(messageTable.getSelectedRow());
+        Main.removeMessage(String.valueOf(messageTable.getValueAt(messageTable.getSelectedRow(), 0)));
         saveTable();
     }//GEN-LAST:event_removeMessageButtonActionPerformed
 
     private void addGraphButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGraphButtonActionPerformed
+        model.addRow(new Object[] {"<PlayerCount>",""});
         saveTable();
     }//GEN-LAST:event_addGraphButtonActionPerformed
 

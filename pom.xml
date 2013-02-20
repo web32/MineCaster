@@ -4,7 +4,7 @@
 
   <groupId>org.fifthDimensionGames</groupId>
   <artifactId>MineCaster</artifactId>
-  <version>MineCaster-Release-0.4-pre</version>
+  <version>MineCaster-Release-1.0-pre</version>
   <packaging>jar</packaging>
 
   <name>MineCaster</name>
@@ -36,7 +36,7 @@
      <resource>
         <directory>src/main/java/</directory>
         <includes>
-            <include>config.yml</include>
+            <include>config.xml</include>
         </includes>
      </resource>
      <resource>
@@ -51,7 +51,7 @@
      <resource>
         <directory>src/test/java/</directory>
         <includes>
-            <include>config.yml</include>
+            <include>config.xml</include>
         </includes>
      </resource>
     </resources>
