@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.media.j3d.DecalGroup;
 import javax.swing.table.TableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,7 +27,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import quicktime.app.sg.SGCaptureCallback;
 
 /**
  *
@@ -96,16 +94,35 @@ public class xmlConfigurationManager {
     public void saveSettings(String pathToFile) {
         try {
             Document doc = dBuilder.parse(new File(pathToFile));
+            Element config = (Element) doc.getElementsByTagName("config").item(0);
             
-            doc.getElementsByTagName("random").item(0).setTextContent(String.valueOf(Main.random));
-            doc.getElementsByTagName("enabled").item(0).setTextContent(String.valueOf(Main.enabled));
-            doc.getElementsByTagName("interval").item(0).setTextContent(String.valueOf(Main.interval));
-            doc.getElementsByTagName("prefix").item(0).setTextContent(Main.prefix.getMessageText());
+            config.getElementsByTagName("random").item(0).setTextContent(String.valueOf(Main.random));
+            config.getElementsByTagName("enabled").item(0).setTextContent(String.valueOf(Main.enabled));
+            config.getElementsByTagName("interval").item(0).setTextContent(String.valueOf("123"));
+            config.getElementsByTagName("prefix").item(0).setTextContent(Main.prefix.getMessageText());
+            
+            //Save result to file
+                try {
+                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                    Transformer transformer;
+                    transformer = transformerFactory.newTransformer();
+                    DOMSource source = new DOMSource(doc);
+                    StreamResult result = new StreamResult(new File(pathToFile));
+                try { 
+                    transformer.transform(source, result);
+                } catch (TransformerException ex) {
+                    Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                } catch (TransformerConfigurationException ex) {
+                    Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
         } catch (SAXException ex) {
             Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
     }
     
     public void resetMessages(String pathToFile,TableModel model) throws TransformerException {
@@ -142,7 +159,6 @@ public class xmlConfigurationManager {
                         }
                         for (int i = 0; i < config.getChildNodes().getLength(); i++) {
                             config.getChildNodes().item(i);
-                            
                         }
                     }
             

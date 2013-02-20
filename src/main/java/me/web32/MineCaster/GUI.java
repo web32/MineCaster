@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.transform.TransformerException;
-import org.bukkit.*;
 
 /**
  *
@@ -321,6 +320,9 @@ public class GUI extends javax.swing.JFrame {
             model = new DefaultTableModel(new String[]{"MessageText","Scheduled"}, 0);
             for (int i = 0; i < Main.messages.size(); i++) {
                 model.addRow(new Object[]{Main.messages.get(i).getMessageText()});
+            }
+            for (int i = 0; i < Main.realTimeMessages.size(); i++) {
+                model.addRow(new Object[]{Main.realTimeMessages.get(i).getMessageText()});
             }
             messageTable.setModel(model);
         } else {

@@ -4,17 +4,12 @@
 
 package me.web32.MineCaster;
 
-import com.google.common.io.Files;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +20,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
 
 /**
  *
@@ -47,7 +43,6 @@ public class Main extends JavaPlugin{
     
     @Override
     public void onEnable() {
-
         //Save default configuration files
        File config = new File("plugins/MineCaster/config.xml");
         if(!config.exists()) {
@@ -89,9 +84,7 @@ public class Main extends JavaPlugin{
     
         //Activate Timer
         scheduleMessageTimer();
-    
-    
-        
+
         /*
          * Initialize Graphs
          */
@@ -100,11 +93,11 @@ public class Main extends JavaPlugin{
         playerCountGraph.getPlayerCountDataCollector();
         
         //Activate MC-Metrics
-//        try {
-//            Metrics metrics = new Metrics(this);
-//            metrics.start();
-//        } catch (IOException e) {
-//        }
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException e) {
+        }
         
     }
 
