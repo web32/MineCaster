@@ -65,11 +65,8 @@ public class Message {
             c.set(Calendar.MINUTE, minutes);
             if(c.getTimeInMillis() < System.currentTimeMillis()) {
                 c.add(Calendar.DAY_OF_MONTH, 1);
-                System.out.println("tomorrow");
             }
-            System.out.println(c.getTimeInMillis() + " - " + System.currentTimeMillis());
             int initialTime = (int) ((c.getTimeInMillis() - System.currentTimeMillis())/ 1000);
-            System.out.println(initialTime);
             Bukkit.getScheduler().scheduleSyncRepeatingTask(Bukkit.getPluginManager().getPlugin("MineCaster"), new Runnable() {
                 public void run() {
                     broadcastMessage();
@@ -117,25 +114,7 @@ public class Message {
    
    @Deprecated
    public String getMessageText() {
-        String message = "";        
-        for (int i = 0; i < words.length; i++) {
-            if(words[i].startsWith("&")) {
-                String CC = words[i].substring(1, 2);
-                message = message + ChatColor.getByChar(CC);
-                if(message.equals("")) {
-                   message = words[i];
-               } else {
-                    message = message + " " + words[i].substring(2);
-               }
-            } else {
-               if(message.equals("")) {
-                   message = words[i];
-               } else {
-               message = message + " " + words[i];
-               }
-            }
-        }
-        return message;
+        return this.text;
     }
     
    @Deprecated

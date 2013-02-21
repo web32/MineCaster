@@ -4,11 +4,21 @@
 
 package me.web32.MineCaster;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -64,6 +74,7 @@ public class GUI extends javax.swing.JFrame {
         addGraphButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         scheduleMessageButton = new javax.swing.JButton();
+        updateLabel = new javax.swing.JLabel();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -287,13 +298,19 @@ public class GUI extends javax.swing.JFrame {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(jLabel1)
-                .add(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(updateLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 275, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .add(tabbedPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(jLabel1)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jLabel1)
+                    .add(layout.createSequentialGroup()
+                        .add(27, 27, 27)
+                        .add(updateLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 105, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(tabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 428, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
@@ -317,7 +334,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
         if(tabbedPane.getSelectedIndex() == 1) {
-            model = new DefaultTableModel(new String[]{"MessageText","Scheduled"}, 0);
+            model = new DefaultTableModel(new String[]{"MessageText","Scheduled at specific time"}, 0);
             for (int i = 0; i < Main.messages.size(); i++) {
                 model.addRow(new Object[]{Main.messages.get(i).getMessageText()});
             }
@@ -372,6 +389,28 @@ public class GUI extends javax.swing.JFrame {
             System.out.println("SAVE IT!");
             Main.xml.resetMessages("plugins/MineCaster/config.xml", model);
         } catch (TransformerException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //Check for plugin updates
+    private void checkUpdates() {
+        try {
+            URL url = new URL("http://46.16.219.104:25570/job/MineCaster/api/xml");
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(url.openStream());
+            
+            Node lastSuccBuild = doc.getElementsByTagName("latestStableBuild").item(0);
+            
+            
+        } catch (SAXException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -436,5 +475,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField serverPrefixTextField;
     private javax.swing.JLabel standardSettingsLabel;
     private javax.swing.JTabbedPane tabbedPane;
+    private javax.swing.JLabel updateLabel;
     // End of variables declaration//GEN-END:variables
 }

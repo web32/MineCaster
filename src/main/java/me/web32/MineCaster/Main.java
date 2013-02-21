@@ -20,6 +20,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.mcstats.Metrics;
 
 /**
@@ -40,6 +41,7 @@ public class Main extends JavaPlugin{
     
     public static GUI gui;
     public static xmlConfigurationManager xml;
+    public static BukkitTask broadcastingSchedueler;
     
     @Override
     public void onEnable() {
@@ -67,11 +69,7 @@ public class Main extends JavaPlugin{
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        
-        
-        
-        
+           
         //Initialize and load XMl-CONFIGURATION-HANDLER
         xml = new xmlConfigurationManager();
         try {
@@ -84,6 +82,9 @@ public class Main extends JavaPlugin{
     
         //Activate Timer
         scheduleMessageTimer();
+        
+        //Initialize GUI
+        gui = new GUI();
 
         /*
          * Initialize Graphs
@@ -113,17 +114,16 @@ public class Main extends JavaPlugin{
             //Interval
             if(args.length == 2 && args[0].equalsIgnoreCase("interval") && sender.hasPermission("minecaster.manage.interval")) {
                 int newInterval = new Integer(args[1]);
-                getConfig().set("interval", newInterval);
-                this.saveConfig();
-                scheduleMessageTimer();
+                Main.interval = newInterval;
+                xml.saveSettings("plugins/MineCaster/config.xml");
                 sender.sendMessage("The broadcasting interval is now " + getConfig().getString("interval") + " seconds.");
                 return true;
             }
             //Prefix
             if(args.length == 2 && args[0].equalsIgnoreCase("prefix") && sender.hasPermission("minecaster.manage.prefix")) {
-                getConfig().set("prefix", args[1]);
-                this.saveConfig();
-                sender.sendMessage("The broadcasting prefix was set " + getConfig().getString("prefix") + ".");
+                Main.prefix.resetMessageText(args[1]);
+                xml.saveSettings("plugins/MineCaster/config.xml");
+                sender.sendMessage("The broadcasting prefix was set " + Main.prefix.getMessageText() + ".");
                 return true;
             }
   
@@ -135,6 +135,7 @@ public class Main extends JavaPlugin{
             //Help Command
             if(args.length == 1 && args[0].equalsIgnoreCase("help")) {
                 sender.sendMessage(ChatColor.AQUA + "MineCaster Help:");
+                sender.sendMessage("/mc gui");
                 sender.sendMessage("/mc announce <message>");
                 sender.sendMessage("/mc interval <interval>");
                 sender.sendMessage("/mc prefix <prefix>");
@@ -146,7 +147,6 @@ public class Main extends JavaPlugin{
             if(args.length == 1 && args[0].equalsIgnoreCase("gui")) {
                 SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    gui = new GUI();
                     gui.setVisible(true);
                 }
             });
@@ -158,7 +158,7 @@ public class Main extends JavaPlugin{
     
     public void scheduleMessageTimer() {
             int repeatingInterval = interval * 20;
-            this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+            broadcastingSchedueler = this.getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
                 @Override  
                 public void run() {
                     if(messages.size() < 1) return;

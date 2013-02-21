@@ -72,7 +72,6 @@ public class xmlConfigurationManager {
                         realTime[j] = e.getElementsByTagName("realTime").item(j).getTextContent();   
                     }
                     
-                    System.out.println(text);
                     //Output Message
                     if(realTime.length > 0 && !"".equals(realTime[0])) {
                         Message output = new Message(text, realTime);
@@ -127,9 +126,6 @@ public class xmlConfigurationManager {
     
     public void resetMessages(String pathToFile,TableModel model) throws TransformerException {
         try {
-            System.out.println("ROWS: " + model.getRowCount());
-            System.out.println("COLUMNS: " + model.getColumnCount());
-            
             Document doc = dBuilder.parse(new File(pathToFile));
             
             Node config = doc.getElementsByTagName("config").item(0);
@@ -137,7 +133,6 @@ public class xmlConfigurationManager {
             NodeList messages = doc.getElementsByTagName("messages");
             
             for (int i = 0; i < messages.getLength(); i++) {
-                System.out.println("MESSAGES!");
                 Node node = messages.item(i);
                 
                 config.removeChild(node);	              
@@ -146,14 +141,11 @@ public class xmlConfigurationManager {
             Node messagesNode = config.appendChild(doc.createElement("messages"));
                 for (int j = 0; j < model.getRowCount(); j++) {
                     Node message = messagesNode.appendChild(doc.createElement("message"));
-                    System.out.println("ROW!");
                     for (int k = 0; k < model.getColumnCount(); k++) {
                         if(k==0) {
-                            System.out.println("TEXT!");
                             Node text = message.appendChild(doc.createElement("text"));
                             text.appendChild(doc.createTextNode(String.valueOf(model.getValueAt(j, k))));
                         } else {
-                            System.out.println("RealTime!");
                             Node realTime = message.appendChild(doc.createElement("realTime"));
                             realTime.appendChild(doc.createTextNode(String.valueOf(model.getValueAt(j, k))));
                         }
