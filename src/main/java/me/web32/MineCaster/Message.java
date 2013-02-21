@@ -117,15 +117,22 @@ public class Message {
    
    @Deprecated
    public String getMessageText() {
-        String message = " ";
-        
+        String message = "";        
         for (int i = 0; i < words.length; i++) {
             if(words[i].startsWith("&")) {
                 String CC = words[i].substring(1, 2);
                 message = message + ChatColor.getByChar(CC);
-                message = message + " " + words[i].substring(2);
+                if(message.equals("")) {
+                   message = words[i];
+               } else {
+                    message = message + " " + words[i].substring(2);
+               }
             } else {
+               if(message.equals("")) {
+                   message = words[i];
+               } else {
                message = message + " " + words[i];
+               }
             }
         }
         return message;
