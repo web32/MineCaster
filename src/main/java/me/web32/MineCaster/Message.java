@@ -68,6 +68,7 @@ public class Message {
             Calendar c = Calendar.getInstance();
             c.set(Calendar.HOUR_OF_DAY, hours);
             c.set(Calendar.MINUTE, minutes);
+            c.set(Calendar.SECOND, 0);
             if(c.getTimeInMillis() < System.currentTimeMillis()) {
                 c.add(Calendar.DAY_OF_MONTH, 1);
             }
@@ -93,6 +94,8 @@ public class Message {
         if(this.text.contains("$")) usingVariable = true;
         
         //Schedule Annoucement
+        //TODO Change for multi-realTime Support
+        this.realTime = realTime.get(0);
         for (int i = 0; i < realTime.size(); i++) {
             String[] time = realTime.get(i).split(":");
             int hours = Integer.valueOf(time[0]);

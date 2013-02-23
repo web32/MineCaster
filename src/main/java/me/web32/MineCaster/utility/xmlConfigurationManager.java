@@ -74,12 +74,6 @@ public class xmlConfigurationManager {
                         System.out.println("RealTime");
                         realTime.add(e.getElementsByTagName("realTime").item(j).getTextContent());   
                     }
-//                    String[] realTime = new String[e.getElementsByTagName("realTime").getLength()];
-//                    System.out.println(e.getElementsByTagName("realTime").getLength());
-//                    for (int j = 0; j < e.getElementsByTagName("realTime").getLength(); j++) {
-//                        System.out.println("RealTime");
-//                        realTime[j] = e.getElementsByTagName("realTime").item(j).getTextContent();   
-//                    }
                     
                     //Output Message
                     if(realTime.size() > 0) {
@@ -178,6 +172,10 @@ public class xmlConfigurationManager {
                 } catch (TransformerConfigurationException ex) {
                     Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
+                //Delete old Messages
+                Main.messages = new ArrayList<Message>();
+                Main.realTimeMessages = new ArrayList<Message>();
             
             
         } catch (SAXException ex) {

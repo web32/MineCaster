@@ -4,6 +4,7 @@
 
 package me.web32.MineCaster;
 
+import com.sun.corba.se.impl.orb.NormalDataCollector;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -159,6 +160,14 @@ public class Main extends JavaPlugin{
                 }
             });
             return true;   
+            }
+            //DEBUG Command
+            if(args.length == 1 && args[0].equalsIgnoreCase("debug")) {
+                sender.sendMessage("MineCaster Debug Information:");
+                sender.sendMessage("Loaded Messages:");
+                sender.sendMessage("Normal: " + messages.size());
+                sender.sendMessage("RealTime: " + realTimeMessages.size());
+                return true;
             }
         }
        return false;

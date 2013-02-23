@@ -375,7 +375,6 @@ public class GUI extends javax.swing.JFrame {
 
     private void scheduleMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleMessageButtonActionPerformed
         int selected = messageTable.getSelectedRow();
-        System.out.println(selected);
         model.setValueAt(JOptionPane.showInputDialog("Please insert when the message should be announced (e.g. 17:25).\n The format is HH:mm and the day has 24 hours."), selected, 1);    
         saveTable();
     }//GEN-LAST:event_scheduleMessageButtonActionPerformed
