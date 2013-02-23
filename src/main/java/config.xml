@@ -2,16 +2,21 @@
 <config>
     <enabled>true</enabled>
     <random>true</random>
-    <prefix>Server</prefix>
+    <prefix>&amp;l&amp;1[&amp;2S&amp;3e&amp;4r&amp;5v&amp;6e&amp;7r&amp;1]</prefix>
     <interval>120</interval>
     <messages>
         <message>
-            <text>Hello World!</text>
-            <realTime>12:00</realTime>
+            <text>This message is announced at &amp;513:00</text>
             <realTime>13:00</realTime>
         </message>
         <message>
-            <text>Hello World! 2</text>
+            <text>Made by &amp;4 web32!</text>
+        </message>
+        <message>
+            <text>You can even use &amp;4 ColorCodes!</text>
+        </message>
+        <message>
+            <text>$PlayerCount will be replaced the Number of Players! More variables at &amp;6 http://dev.bukkit.org/server-mods/minecaster/pages/setup-and-maintaining-guide/</text>
         </message>
     </messages>
 </config>

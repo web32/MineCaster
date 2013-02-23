@@ -71,7 +71,6 @@ public class xmlConfigurationManager {
                     //Define realTime-array
                     List<String> realTime = new ArrayList<String>();
                     for (int j = 0; j < e.getElementsByTagName("realTime").getLength(); j++) {
-                        System.out.println("RealTime");
                         realTime.add(e.getElementsByTagName("realTime").item(j).getTextContent());   
                     }
                     

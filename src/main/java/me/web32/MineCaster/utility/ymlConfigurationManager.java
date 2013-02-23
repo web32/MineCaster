@@ -4,7 +4,6 @@
 
 package me.web32.MineCaster.utility;
 
-import java.util.List;
 import me.web32.MineCaster.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;

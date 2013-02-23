@@ -14,7 +14,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import org.bukkit.ChatColor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -315,7 +314,11 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMessageButtonActionPerformed
-        model.addRow(new Object[] { JOptionPane.showInputDialog("Please insert the message text."), "Announced every " + Main.interval + " seconds."});
+        String message = JOptionPane.showInputDialog("Please insert the message text.");
+        while(message.isEmpty()) {
+            message = JOptionPane.showInputDialog("Your message was empty! \n Insert a new one.");
+        }       
+        model.addRow(new Object[] {message , "Announced every " + Main.interval + " seconds."});
         saveTable();
     }//GEN-LAST:event_addMessageButtonActionPerformed
 
@@ -375,6 +378,10 @@ public class GUI extends javax.swing.JFrame {
 
     private void scheduleMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleMessageButtonActionPerformed
         int selected = messageTable.getSelectedRow();
+        String time = JOptionPane.showInputDialog("Please insert when the message should be announced (e.g. 17:25).\n The format is HH:mm and the day has 24 hours.");
+        if(!time.contains(":")) {
+            JOptionPane.showMessageDialog(rootPane, "The message format is HH:mm (e.g. 09:25)");
+        }
         model.setValueAt(JOptionPane.showInputDialog("Please insert when the message should be announced (e.g. 17:25).\n The format is HH:mm and the day has 24 hours."), selected, 1);    
         saveTable();
     }//GEN-LAST:event_scheduleMessageButtonActionPerformed
