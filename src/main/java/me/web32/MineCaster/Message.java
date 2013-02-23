@@ -5,6 +5,7 @@
 package me.web32.MineCaster;
 
 import java.util.Calendar;
+import java.util.List;
 import org.bukkit.*;
 
 /**
@@ -14,6 +15,10 @@ import org.bukkit.*;
 public class Message {
     //RealTime Scheduling
     private boolean scheduledRealTime = false;
+
+    public String getRealTime() {
+        return realTime;
+    }
     private String realTime;
     
     //MC-Time Scheduling
@@ -74,6 +79,40 @@ public class Message {
             }, initialTime * 20L, 60 * 60 * 24 * 20L);            
         }
     }
+    
+    //Schedule Message with RealTime as a list
+    public Message(String text, List<String> realTime) {
+        //Save plaintext
+        this.text = text;
+        
+        //Save WordArray
+        this.words = text.split(" ");
+        
+        //Set booleans
+        if(this.text.contains("&")) usingColor = true;
+        if(this.text.contains("$")) usingVariable = true;
+        
+        //Schedule Annoucement
+        for (int i = 0; i < realTime.size(); i++) {
+            String[] time = realTime.get(i).split(":");
+            int hours = Integer.valueOf(time[0]);
+            int minutes = Integer.valueOf(time[1]);
+            
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.HOUR_OF_DAY, hours);
+            c.set(Calendar.MINUTE, minutes);
+            if(c.getTimeInMillis() < System.currentTimeMillis()) {
+                c.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            int initialTime = (int) ((c.getTimeInMillis() - System.currentTimeMillis())/ 1000);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(Bukkit.getPluginManager().getPlugin("MineCaster"), new Runnable() {
+                public void run() {
+                    broadcastMessage();
+                }
+            }, initialTime * 20L, 60 * 60 * 24 * 20L);            
+        }
+    }
+    
     /*
      * Message Output
      */

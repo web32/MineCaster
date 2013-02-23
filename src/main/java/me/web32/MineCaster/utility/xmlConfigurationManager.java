@@ -7,6 +7,8 @@ package me.web32.MineCaster.utility;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.TableModel;
@@ -67,13 +69,20 @@ public class xmlConfigurationManager {
                     text = e.getElementsByTagName("text").item(0).getTextContent();
                     
                     //Define realTime-array
-                    String[] realTime = new String[e.getElementsByTagName("realTime").getLength()];
+                    List<String> realTime = new ArrayList<String>();
                     for (int j = 0; j < e.getElementsByTagName("realTime").getLength(); j++) {
-                        realTime[j] = e.getElementsByTagName("realTime").item(j).getTextContent();   
+                        System.out.println("RealTime");
+                        realTime.add(e.getElementsByTagName("realTime").item(j).getTextContent());   
                     }
+//                    String[] realTime = new String[e.getElementsByTagName("realTime").getLength()];
+//                    System.out.println(e.getElementsByTagName("realTime").getLength());
+//                    for (int j = 0; j < e.getElementsByTagName("realTime").getLength(); j++) {
+//                        System.out.println("RealTime");
+//                        realTime[j] = e.getElementsByTagName("realTime").item(j).getTextContent();   
+//                    }
                     
                     //Output Message
-                    if(realTime.length > 0 && !"".equals(realTime[0])) {
+                    if(realTime.size() > 0) {
                         Message output = new Message(text, realTime);
                         Main.realTimeMessages.add(output);
                     } else {
@@ -146,8 +155,11 @@ public class xmlConfigurationManager {
                             Node text = message.appendChild(doc.createElement("text"));
                             text.appendChild(doc.createTextNode(String.valueOf(model.getValueAt(j, k))));
                         } else {
-                            Node realTime = message.appendChild(doc.createElement("realTime"));
-                            realTime.appendChild(doc.createTextNode(String.valueOf(model.getValueAt(j, k))));
+                            String realTimeCell = (String) model.getValueAt(j, k);
+                            if(!realTimeCell.contains("Announced")) {
+                                Node realTime = message.appendChild(doc.createElement("realTime"));
+                                realTime.appendChild(doc.createTextNode(String.valueOf(model.getValueAt(j, k))));
+                            }
                         }
                         for (int i = 0; i < config.getChildNodes().getLength(); i++) {
                             config.getChildNodes().item(i);

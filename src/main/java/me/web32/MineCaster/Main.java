@@ -46,6 +46,7 @@ public class Main extends JavaPlugin{
     @Override
     public void onEnable() {
         //Save default configuration files
+       new File("plugins/MineCaster").mkdir();
        File config = new File("plugins/MineCaster/config.xml");
         if(!config.exists()) {
             InputStream is = getResource("config.xml");
@@ -106,7 +107,14 @@ public class Main extends JavaPlugin{
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(cmd.getName().equalsIgnoreCase("minecaster") || cmd.getName().equalsIgnoreCase("mc")) {
             //Configuration Reloading
-            if(args.length == 1 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("minecaster.manage.reload")) {               
+            if(args.length == 1 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("minecaster.manage.reload")) { 
+                try {
+                    xml.loadConfiguration("plugins/MineCaster/config.xml");
+                } catch (XMLStreamException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 sender.sendMessage("The configuration file was reloaded!");
                 return true;
             }
@@ -144,7 +152,7 @@ public class Main extends JavaPlugin{
             }
             //GUI COMMANDS
             //gui open Command
-            if(args.length == 1 && args[0].equalsIgnoreCase("gui")) {
+            if(args.length == 1 && args[0].equalsIgnoreCase("gui") && sender.hasPermission("minecaster.gui")) {
                 SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     gui.setVisible(true);

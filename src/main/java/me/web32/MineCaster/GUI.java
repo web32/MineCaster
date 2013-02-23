@@ -4,9 +4,7 @@
 
 package me.web32.MineCaster;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +14,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import org.bukkit.ChatColor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -61,8 +60,6 @@ public class GUI extends javax.swing.JFrame {
         saveButton = new javax.swing.JButton();
         serverPrefixTextField = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        messageTable = new javax.swing.JTable();
         addMessageButton = new javax.swing.JButton();
         removeGraphButton = new javax.swing.JButton();
         configurationText = new javax.swing.JLabel();
@@ -74,6 +71,8 @@ public class GUI extends javax.swing.JFrame {
         addGraphButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         scheduleMessageButton = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        messageTable = new javax.swing.JTable();
         updateLabel = new javax.swing.JLabel();
 
         jPasswordField1.setText("jPasswordField1");
@@ -165,24 +164,6 @@ public class GUI extends javax.swing.JFrame {
 
         tabbedPane.addTab("General", jPanel1);
 
-        messageTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Text"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(messageTable);
-
         addMessageButton.setText("Add Message");
         addMessageButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,6 +208,19 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        messageTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(messageTable);
+
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -255,7 +249,7 @@ public class GUI extends javax.swing.JFrame {
                             .add(graphLabel))
                         .add(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 570, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 570, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -263,6 +257,7 @@ public class GUI extends javax.swing.JFrame {
             .add(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 370, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jPanel2Layout.createSequentialGroup()
                         .add(configurationText)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -284,10 +279,8 @@ public class GUI extends javax.swing.JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(removeGraphButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jSeparator2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 0, Short.MAX_VALUE))
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE))
-                .addContainerGap())
+                        .add(jSeparator2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabbedPane.addTab("Messages", jPanel2);
@@ -322,13 +315,14 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMessageButtonActionPerformed
-        model.addRow(new Object[] { JOptionPane.showInputDialog("Please insert the message text."), ""});
+        model.addRow(new Object[] { JOptionPane.showInputDialog("Please insert the message text."), "Announced every " + Main.interval + " seconds."});
         saveTable();
     }//GEN-LAST:event_addMessageButtonActionPerformed
 
     private void removeGraphButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeGraphButtonActionPerformed
-        model.removeRow(messageTable.getSelectedRow());
-        Main.removeMessage(String.valueOf(messageTable.getValueAt(messageTable.getSelectedRow(), 0)));
+        int selected = messageTable.getSelectedRow();
+        Main.removeMessage(String.valueOf(messageTable.getValueAt(selected, 0)));
+        model.removeRow(selected);
         saveTable();       
     }//GEN-LAST:event_removeGraphButtonActionPerformed
 
@@ -336,10 +330,10 @@ public class GUI extends javax.swing.JFrame {
         if(tabbedPane.getSelectedIndex() == 1) {
             model = new DefaultTableModel(new String[]{"MessageText","Scheduled at specific time"}, 0);
             for (int i = 0; i < Main.messages.size(); i++) {
-                model.addRow(new Object[]{Main.messages.get(i).getMessageText()});
+                model.addRow(new Object[]{Main.messages.get(i).getMessageText(), "Announced every " + Main.interval + " seconds."});
             }
             for (int i = 0; i < Main.realTimeMessages.size(); i++) {
-                model.addRow(new Object[]{Main.realTimeMessages.get(i).getMessageText()});
+                model.addRow(new Object[]{Main.realTimeMessages.get(i).getMessageText(),Main.realTimeMessages.get(i).getRealTime()});
             }
             messageTable.setModel(model);
         } else {
@@ -368,25 +362,26 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void removeMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMessageButtonActionPerformed
-        model.removeRow(messageTable.getSelectedRow());
-        Main.removeMessage(String.valueOf(messageTable.getValueAt(messageTable.getSelectedRow(), 0)));
+        int selected = messageTable.getSelectedRow();
+        Main.removeMessage(String.valueOf(messageTable.getValueAt(selected, 0)));
+        model.removeRow(selected);
         saveTable();
     }//GEN-LAST:event_removeMessageButtonActionPerformed
 
     private void addGraphButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGraphButtonActionPerformed
-        model.addRow(new Object[] {"<PlayerCount>",""});
+        model.addRow(new Object[] {"<PlayerCount>","Announced every " + Main.interval + " seconds."});
         saveTable();
     }//GEN-LAST:event_addGraphButtonActionPerformed
 
     private void scheduleMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleMessageButtonActionPerformed
         int selected = messageTable.getSelectedRow();
+        System.out.println(selected);
         model.setValueAt(JOptionPane.showInputDialog("Please insert when the message should be announced (e.g. 17:25).\n The format is HH:mm and the day has 24 hours."), selected, 1);    
         saveTable();
     }//GEN-LAST:event_scheduleMessageButtonActionPerformed
     
     private void saveTable() {
         try {
-            System.out.println("SAVE IT!");
             Main.xml.resetMessages("plugins/MineCaster/config.xml", model);
         } catch (TransformerException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -462,7 +457,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable messageTable;
