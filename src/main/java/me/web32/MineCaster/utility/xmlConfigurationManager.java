@@ -191,13 +191,6 @@ public class xmlConfigurationManager {
         } catch (IOException ex) {
             Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
-            loadConfiguration("plugins/MineCaster/config.xml");
-        } catch (XMLStreamException ex) {
-            Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     public void resetMessages(String pathToFile,TableModel model) throws TransformerException {

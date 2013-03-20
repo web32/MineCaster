@@ -16,7 +16,7 @@
             <text>You can even use &amp;4 ColorCodes!</text>
         </message>
         <message>
-            <text>$PlayerCount will be replaced the Number of Players! More variables at &amp;6 http://dev.bukkit.org/server-mods/minecaster/pages/setup-and-maintaining-guide/</text>
+            <text>'$PlayerCount' will be replaced the Number of Players! More variables at &amp;6 http://dev.bukkit.org/server-mods/minecaster/pages/setup-and-maintaining-guide/</text>
         </message>
     </messages>
 </config>

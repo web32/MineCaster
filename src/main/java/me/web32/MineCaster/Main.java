@@ -231,6 +231,9 @@ public class Main extends JavaPlugin{
             if(args.length == 1 && args[0].equalsIgnoreCase("help")) {
                 sender.sendMessage(ChatColor.AQUA + "MineCaster Help:");
                 sender.sendMessage("/mc gui");
+                sender.sendMessage("/mc list [PageNr] Shows the loaded messages.");
+                sender.sendMessage("/mc add <message> Adds a message for broadcasting.");
+                sender.sendMessage("/mc remove <index> Removes the message with the selected index.");
                 sender.sendMessage("/mc announce <message>");
                 sender.sendMessage("/mc interval <interval>");
                 sender.sendMessage("/mc prefix <prefix>");
@@ -242,6 +245,7 @@ public class Main extends JavaPlugin{
             if(args.length == 1 && args[0].equalsIgnoreCase("gui") && sender.hasPermission("minecaster.gui")) {
                 if(GraphicsEnvironment.isHeadless()) {
                     sender.sendMessage(ChatColor.RED + "Could not initialize GUI! Your host-system doesn't have a GUI!");
+                    return true;
                 }
                 SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
