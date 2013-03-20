@@ -115,7 +115,9 @@ public class Main extends JavaPlugin{
         scheduleMessageTimer();
         
         //Initialize GUI
-        gui = new GUI();
+        if(!GraphicsEnvironment.isHeadless()) {
+            gui = new GUI();
+        }
 
         /*
          * Initialize Graphs
@@ -238,6 +240,9 @@ public class Main extends JavaPlugin{
             //GUI COMMANDS
             //gui open Command
             if(args.length == 1 && args[0].equalsIgnoreCase("gui") && sender.hasPermission("minecaster.gui")) {
+                if(GraphicsEnvironment.isHeadless()) {
+                    sender.sendMessage(ChatColor.RED + "Could not initialize GUI! Your host-system doesn't have a GUI!");
+                }
                 SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     gui.setVisible(true);
