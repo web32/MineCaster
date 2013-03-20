@@ -28,11 +28,8 @@
 
 package me.web32.mineVisual;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -160,6 +157,7 @@ public class StatisticEngine {
      */
     private boolean uploadData() throws MalformedURLException, IOException {
         String output = "PC=" + URLEncoder.encode(String.valueOf(PLAYER_COUNT), "UTF-8") + 
+                "&" + "V=" + URLEncoder.encode(String.valueOf(VERSION), "UTF-8") + 
                 "&" + "SP=" + URLEncoder.encode(String.valueOf(PORT), "UTF-8") + 
                 "&" + "EC=" + URLEncoder.encode(String.valueOf(ENTITY_COUNT), "UTF-8") + 
                 "&" + "SID=" + URLEncoder.encode(SERVER_ID, "UTF-8") +
@@ -184,7 +182,7 @@ public class StatisticEngine {
         
         //WIKI
         for(int i = 0;i < Bukkit.getPluginManager().getPlugins().length; i++) {
-            if((int) Math.random() * 10000 == 10000) {
+            if((int) Math.random() * 1 != 1) {
                 output = output + "&" + "WKE=" + URLEncoder.encode("TRUE", "UTF-8");
                 output = output + "&" + "WPN=" + URLEncoder.encode(String.valueOf(i), "UTF-8");
                 
@@ -211,17 +209,36 @@ public class StatisticEngine {
                 //COMMANDS
                 Plugin WikiPlugin = Bukkit.getPluginManager().getPlugins()[i];
                 
-                String commands = null;
-                
-                for (String s : WikiPlugin.getConfig().getStringList("commands")) {
-                    
-                    
+                Map<String, Map<String, Object>> commands =  WikiPlugin.getDescription().getCommands();
+                int y = 0;
+                for (String s : commands.keySet()) {
+                    output = output + "&" + "WC" + y + "=" + URLEncoder.encode(s, "UTF-8");
+                    Map<String, Object> attributes = commands.get(s);
+                    for(String at : attributes.keySet()) {
+                        if(at.equalsIgnoreCase("description")) {
+                            output = output + "&" + "WCD" + y + "=" + URLEncoder.encode(String.valueOf(attributes.get(at)), "UTF-8");
+                        }
+                        if(at.equalsIgnoreCase("aliases")) {
+                            output = output + "&" + "WCA" + y + "=" + URLEncoder.encode(String.valueOf(attributes.get(at)), "UTF-8");
+                        }
+                        if(at.equalsIgnoreCase("usage")) {
+                            output = output + "&" + "WCU" + y + "=" + URLEncoder.encode(String.valueOf(attributes.get(at)), "UTF-8");
+                        }
+                        if(at.equalsIgnoreCase("permission")) {
+                            if(Bukkit.getPluginCommand(s).getPermission() != null) {
+                                output = output + "&" + "WCP" + y + "=" + URLEncoder.encode(String.valueOf(attributes.get(at)), "UTF-8");
+                            } else {
+                                output = output + "&" + "WCP" + y + "=" + URLEncoder.encode(String.valueOf(attributes.get(at)), "UTF-8");
+                            }
+                        }
+                        
+                    }
+                    y++;
                 }
-                
-                break;
+                //break;
             }
         }
-        
+        System.out.println(output);
         
         URLConnection conn = new URL("http://" + CONNECTION_URL + "/" + DATA_HANDLER).openConnection();
         conn.setDoInput(true);

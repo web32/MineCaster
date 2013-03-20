@@ -150,6 +150,56 @@ public class xmlConfigurationManager {
         
     }
     
+    public void saveMessages(List<Message> messageList) throws TransformerException {
+    try {
+            Document doc = dBuilder.parse(new File("plugins/MineCaster/config.xml"));
+            
+            Node config = doc.getElementsByTagName("config").item(0);
+            
+            NodeList messages = doc.getElementsByTagName("messages");
+            
+            for (int i = 0; i < messages.getLength(); i++) {
+                Node node = messages.item(i);
+                
+                config.removeChild(node);	              
+            }
+                    
+            Node messagesNode = config.appendChild(doc.createElement("messages"));
+            for (int i = 0; i < messageList.size(); i++) {
+                Node message = messagesNode.appendChild(doc.createElement("message"));
+                Node textNode = message.appendChild(doc.createElement("text"));
+                textNode.appendChild(doc.createTextNode(messageList.get(i).getMessageText()));
+                if(messageList.get(i).getRealTime() != null) {
+                    Node realTimeNode = message.appendChild(doc.createElement("realTime"));
+                    realTimeNode.appendChild(doc.createTextNode(messageList.get(i).getRealTime()));
+                }          
+            }
+                    
+                //Save result to file
+                try {
+                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                    Transformer transformer;
+                    transformer = transformerFactory.newTransformer();
+                    DOMSource source = new DOMSource(doc);
+                    StreamResult result = new StreamResult(new File("plugins/MineCaster/config.xml"));
+                    transformer.transform(source, result); 
+                } catch (TransformerConfigurationException ex) {
+                    Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        } catch (SAXException ex) {
+            Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            loadConfiguration("plugins/MineCaster/config.xml");
+        } catch (XMLStreamException ex) {
+            Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(xmlConfigurationManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void resetMessages(String pathToFile,TableModel model) throws TransformerException {
         try {
             Document doc = dBuilder.parse(new File(pathToFile));
